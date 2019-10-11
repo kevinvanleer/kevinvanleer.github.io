@@ -1,3 +1,3 @@
 ## Kevin Van Leer
 
-You can use the [resume](https://kevinvanleer.github.io/resume)
+View my [resume](https://kevinvanleer.github.io/resume)
