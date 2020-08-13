@@ -14,7 +14,7 @@ function App() {
     <Flexbox
       position="absolute"
       top={0}
-      bottom={0}
+      bottom={-50}
       left={0}
       right={0}
       backgroundColor="#282c34"
@@ -27,7 +27,6 @@ function App() {
         height="100%"
         overflow="auto"
         padding="1em"
-        backgroundColor="#282c34"
       >
         <Text fontSize="title">kevinvanleer.com</Text>
         <Spacer height="1em" />
