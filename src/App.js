@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { faFile, faMap, faImages } from '@fortawesome/free-solid-svg-icons';
 import {
+  faGithub,
   faLinkedin,
   faFacebook,
   faTwitter,
@@ -83,7 +84,14 @@ function App() {
           </Link>
         </Flexbox>
         <Spacer flexGrow={1} t height="3em" />
-        <Flexbox width="20ch" justifyContent="space-between">
+        <Flexbox marginBetween="1em">
+          <Link href="https://github.com/kevinvanleer/">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faGithub} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">GitHub</Text>
+            </Flexbox>
+          </Link>
           <Link href="https://www.linkedin.com/in/kevin-vanleer/">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faLinkedin} />
