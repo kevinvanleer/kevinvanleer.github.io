@@ -19,9 +19,14 @@ function App() {
       backgroundColor="#282c34"
       color="#eee"
       flexDirection="column"
-      padding="1em"
     >
-      <Flexbox flexDirection="column" maxWidth="80ch" height="100%">
+      <Flexbox
+        flexDirection="column"
+        maxWidth="80ch"
+        height="100%"
+        overflow="auto"
+        padding="1em"
+      >
         <Text fontSize="title">kevinvanleer.com</Text>
         <Spacer height="1em" />
         <Text>
@@ -48,7 +53,12 @@ function App() {
         <Spacer height="2em" />
         <Text fontSize="heading">Links</Text>
         <Spacer height="1em" />
-        <Flexbox justifyContent="space-around">
+        <Flexbox
+          justifyContent="space-around"
+          flexWrap="wrap"
+          marginBetween="1em"
+          wrapMargin="1em"
+        >
           <Link href="/resume">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="10x" icon={faFile} />
