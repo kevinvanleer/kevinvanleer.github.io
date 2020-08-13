@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import './index.css';
 import {
   faFile,
   faMapMarkedAlt,
@@ -16,21 +17,17 @@ import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-ui';
 function App() {
   return (
     <Flexbox
-      position="absolute"
-      top={0}
-      bottom={-50}
-      left={0}
-      right={0}
+      flexDirection="column"
       backgroundColor="#282c34"
       color="#eee"
-      flexDirection="column"
+      height="100%"
     >
       <Flexbox
         flexDirection="column"
+        backgroundColor="#282c34"
         maxWidth="80ch"
+        padding="1em 1em 0 1em"
         height="100%"
-        overflow="auto"
-        padding="1em"
       >
         <Text fontSize="title">kevinvanleer.com</Text>
         <Spacer height="1em" />
@@ -87,7 +84,7 @@ function App() {
             </Flexbox>
           </Link>
         </Flexbox>
-        <Spacer flexGrow={1} t height="3em" />
+        <Spacer flexGrow={1} height="3em" />
         <Flexbox marginBetween="1em">
           <Link href="https://github.com/kevinvanleer/">
             <Flexbox flexDirection="column" alignItems="center">
@@ -118,6 +115,7 @@ function App() {
             </Flexbox>
           </Link>
         </Flexbox>
+        <Spacer height="1em" />
       </Flexbox>
     </Flexbox>
   );

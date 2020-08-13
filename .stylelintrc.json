@@ -1,6 +1,6 @@
 {
   "processors": [
-    "stylelint-processor-styled-components"
+    ["stylelint-processor-styled-components", { "ignoreFiles": ["**/*.css"] }]
   ],
   "extends": [
     "stylelint-config-recommended",
