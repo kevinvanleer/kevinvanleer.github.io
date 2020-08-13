@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -22,7 +23,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "lint:css": "stylelint './src/**/*.js'",
+    "lint:css": "stylelint './src/**/*.jsx?'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "predeploy": "yarn version && yarn run build",

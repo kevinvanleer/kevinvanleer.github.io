@@ -1,6 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { faFile, faMap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faLinkedin,
+  faFacebook,
+  faTwitter,
+} from '@fortawesome/free-brands-svg-icons';
 import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-ui';
 
 function App() {
@@ -16,7 +21,7 @@ function App() {
       flexDirection="column"
       padding="1em"
     >
-      <Flexbox flexDirection="column" maxWidth="80ch">
+      <Flexbox flexDirection="column" maxWidth="80ch" height="100%">
         <Text fontSize="title">Kevin Van Leer</Text>
         <Spacer height="1em" />
         <Text>
@@ -49,6 +54,30 @@ function App() {
               <Spacer height="1em" />
               <Text fontSize="label">COVID-19</Text>
               <Text fontSize="label">Visualization</Text>
+            </Flexbox>
+          </Link>
+        </Flexbox>
+        <Spacer flexGrow={1} height="3em" />
+        <Flexbox width="20ch" justifyContent="space-between">
+          <Link href="https://www.linkedin.com/in/kevin-vanleer/">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faLinkedin} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">LinkedIn</Text>
+            </Flexbox>
+          </Link>
+          <Link href="https://www.facebook.com/kevin.vanleer">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faFacebook} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">Facebook</Text>
+            </Flexbox>
+          </Link>
+          <Link href="https://www.twitter.com/trukvl">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faTwitter} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">Twitter</Text>
             </Flexbox>
           </Link>
         </Flexbox>
