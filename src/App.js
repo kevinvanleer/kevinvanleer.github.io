@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { faFile, faMap } from '@fortawesome/free-solid-svg-icons';
+import { faFile, faMap, faImages } from '@fortawesome/free-solid-svg-icons';
 import {
   faLinkedin,
   faFacebook,
@@ -22,7 +22,15 @@ function App() {
       padding="1em"
     >
       <Flexbox flexDirection="column" maxWidth="80ch" height="100%">
-        <Text fontSize="title">Kevin Van Leer</Text>
+        <Text fontSize="title">kevinvanleer.com</Text>
+        <Spacer height="1em" />
+        <Text>
+          Hi, I’m Kevin Van Leer, husband, father of three, and
+          do-it-yourselfer. I love working with my hands and creating beautiful
+          and useful things and experiences. Whether I’m at the keyboard,
+          playing my saxophone, or down in the woodshop, I get great
+          satisfaction out of seeing my ideas come to fruition.
+        </Text>
         <Spacer height="1em" />
         <Text>
           I’ve been writing software for {moment('2004-06-12').fromNow(true)}{' '}
@@ -56,8 +64,15 @@ function App() {
               <Text fontSize="label">Visualization</Text>
             </Flexbox>
           </Link>
+          <Link href="https://photos.app.goo.gl/ZEwJhPfaTAxpCdED8">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="10x" icon={faImages} />
+              <Spacer height="1em" />
+              <Text fontSize="label">Woodworking</Text>
+            </Flexbox>
+          </Link>
         </Flexbox>
-        <Spacer flexGrow={1} height="3em" />
+        <Spacer flexGrow={1} t height="3em" />
         <Flexbox width="20ch" justifyContent="space-between">
           <Link href="https://www.linkedin.com/in/kevin-vanleer/">
             <Flexbox flexDirection="column" alignItems="center">
