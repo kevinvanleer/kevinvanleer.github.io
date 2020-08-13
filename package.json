@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "lint:css": "stylelint '.src/**/*.js'",
+    "lint:css": "stylelint './src/**/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "predeploy": "yarn version && yarn run build",
