@@ -1,6 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { faFile, faMap, faImages } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFile,
+  faMapMarkedAlt,
+  faImages,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faGithub,
   faLinkedin,
@@ -69,7 +73,7 @@ function App() {
           </Link>
           <Link href="http://covid19.kevinvanleer.com">
             <Flexbox flexDirection="column" alignItems="center">
-              <Icon size="10x" icon={faMap} />
+              <Icon size="10x" icon={faMapMarkedAlt} />
               <Spacer height="1em" />
               <Text fontSize="label">COVID-19</Text>
               <Text fontSize="label">Visualization</Text>
