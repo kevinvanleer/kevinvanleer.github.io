@@ -27,6 +27,7 @@ function App() {
         height="100%"
         overflow="auto"
         padding="1em"
+        backgroundColor="#282c34"
       >
         <Text fontSize="title">kevinvanleer.com</Text>
         <Spacer height="1em" />
