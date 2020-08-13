@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import moment from 'moment';
 import './index.css';
 import {
@@ -11,8 +12,24 @@ import {
   faLinkedin,
   faFacebook,
   faTwitter,
+  faSoundcloud,
+  faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-ui';
+
+const Title = styled(Text)`
+  font-size: 32px;
+  @media screen and (min-width: 320px) {
+    & {
+      font-size: calc(32px + (96 - 32) * ((100vw - 320px) / (800 - 320)));
+    }
+  }
+  @media screen and (min-width: 800px) {
+    & {
+      font-size: 96px;
+    }
+  }
+`;
 
 function App() {
   return (
@@ -21,6 +38,7 @@ function App() {
       backgroundColor="#282c34"
       color="#eee"
       height="100%"
+      alignItems="center"
     >
       <Flexbox
         flexDirection="column"
@@ -29,14 +47,18 @@ function App() {
         padding="1em 1em 0 1em"
         height="100%"
       >
-        <Text fontSize="title">kevinvanleer.com</Text>
-        <Spacer height="1em" />
+        <Flexbox position="relative" flexDirection="column">
+          <img src="/kev-n-jill.jpg" style={{ width: '100%' }} />
+          <Title color="#ef8f00">kevinvanleer.com</Title>
+        </Flexbox>
+        <Spacer height="2em" />
         <Text>
           Hi, I’m Kevin Van Leer, husband, father of three, and
-          do-it-yourselfer. I love working with my hands and creating beautiful
-          and useful things and experiences. Whether I’m at the keyboard,
-          playing my saxophone, or down in the woodshop, I get great
-          satisfaction out of seeing my ideas come to fruition.
+          do-it-yourselfer. I love working with my hands to create beautiful and
+          useful things. I’m just as passionate about creating enjoyable
+          experiences. Whether I’m at the keyboard, playing my saxophone, or
+          down in the woodshop, I get great satisfaction out of seeing my ideas
+          come to fruition.
         </Text>
         <Spacer height="1em" />
         <Text>
@@ -98,6 +120,20 @@ function App() {
               <Icon size="2x" icon={faLinkedin} />
               <Spacer height="1em" />
               <Text fontSize="detail">LinkedIn</Text>
+            </Flexbox>
+          </Link>
+          <Link href="https://soundcloud.com/kevin-van-leer-381908490">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faSoundcloud} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">SoundCloud</Text>
+            </Flexbox>
+          </Link>
+          <Link href="https://www.youtube.com/c/KevinVanLeerJet">
+            <Flexbox flexDirection="column" alignItems="center">
+              <Icon size="2x" icon={faYoutube} />
+              <Spacer height="1em" />
+              <Text fontSize="detail">YouTube</Text>
             </Flexbox>
           </Link>
           <Link href="https://www.facebook.com/kevin.vanleer">
