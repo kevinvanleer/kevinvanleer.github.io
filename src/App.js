@@ -56,9 +56,9 @@ function App() {
           Hi, I’m Kevin Van Leer, husband, father of three, and
           do-it-yourselfer. I love working with my hands to create beautiful and
           useful things. I’m just as passionate about creating enjoyable
-          experiences. Whether I’m at the keyboard, playing my saxophone, or
-          down in the woodshop, I get great satisfaction out of seeing my ideas
-          come to fruition.
+          experiences. Whether I’m coding, playing my saxophone, or down in the
+          woodshop, I get great satisfaction out of seeing my ideas come to
+          fruition.
         </Text>
         <Spacer height="1em" />
         <Text>
