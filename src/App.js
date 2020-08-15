@@ -47,8 +47,12 @@ function App() {
         padding="1em 1em 0 1em"
         height="100%"
       >
-        <Flexbox position="relative" flexDirection="column">
-          <img src="/kev-n-jill.jpg" style={{ width: '100%' }} />
+        <Flexbox flexDirection="column">
+          <img
+            alt="Kevin and his wife Jillian in Acadia National Park"
+            src="/kev-n-jill.jpg"
+            style={{ width: '100%' }}
+          />
           <Title color="#ef8f00">kevinvanleer.com</Title>
         </Flexbox>
         <Spacer height="2em" />
