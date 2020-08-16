@@ -120,42 +120,42 @@ function App() {
           <Link href="https://github.com/kevinvanleer/">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faGithub} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">GitHub</Text>
             </Flexbox>
           </Link>
           <Link href="https://www.linkedin.com/in/kevin-vanleer/">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faLinkedin} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">LinkedIn</Text>
             </Flexbox>
           </Link>
           <Link href="https://soundcloud.com/kevin-van-leer-381908490">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faSoundcloud} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">SoundCloud</Text>
             </Flexbox>
           </Link>
           <Link href="https://www.youtube.com/c/KevinVanLeerJet">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faYoutube} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">YouTube</Text>
             </Flexbox>
           </Link>
           <Link href="https://www.facebook.com/kevin.vanleer">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faFacebook} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">Facebook</Text>
             </Flexbox>
           </Link>
           <Link href="https://www.twitter.com/trukvl">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faTwitter} />
-              <Spacer height="1em" />
+              <Spacer height="0.5em" />
               <Text fontSize="detail">Twitter</Text>
             </Flexbox>
           </Link>
