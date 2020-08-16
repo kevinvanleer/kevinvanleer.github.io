@@ -111,7 +111,12 @@ function App() {
           </Link>
         </Flexbox>
         <Spacer flexGrow={1} height="3em" />
-        <Flexbox marginBetween="1em">
+        <Flexbox
+          marginBetween="1em"
+          flexWrap="wrap"
+          maxHeight="55px"
+          overflow="hidden"
+        >
           <Link href="https://github.com/kevinvanleer/">
             <Flexbox flexDirection="column" alignItems="center">
               <Icon size="2x" icon={faGithub} />
