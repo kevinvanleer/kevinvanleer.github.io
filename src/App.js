@@ -50,7 +50,7 @@ const App = () => {
         <Flexbox flexDirection="column">
           <img
             alt="Kevin and his wife Jillian in Acadia National Park"
-            src="/kev-n-jill.jpg"
+            src="/kev-n-jill-960.webp"
             style={{ width: '100%' }}
           />
           <Title color="#ef8f00">kevinvanleer.com</Title>
