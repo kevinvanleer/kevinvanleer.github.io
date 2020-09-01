@@ -15,7 +15,7 @@ import {
   faSoundcloud,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-ui';
+import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-react-ui';
 
 const Title = styled(Text)`
   font-size: 32px;
@@ -31,7 +31,7 @@ const Title = styled(Text)`
   }
 `;
 
-function App() {
+const App = () => {
   return (
     <Flexbox
       flexDirection="column"
@@ -164,6 +164,6 @@ function App() {
       </Flexbox>
     </Flexbox>
   );
-}
+};
 
 export default App;
