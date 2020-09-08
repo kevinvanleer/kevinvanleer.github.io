@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import ReactGA from 'react-ga';
 import moment from 'moment';
 import {
   faFile,
@@ -31,6 +32,12 @@ const Title = styled(Text)`
 `;
 
 const App = () => {
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, []);
+
   return (
     <Flexbox
       flexDirection="column"
