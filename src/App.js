@@ -116,7 +116,7 @@ const App = () => {
                   style={{ border: '3px solid #5f6167', borderRadius: '10px' }}
                   height="160px"
                   src="/img/woodworking-thumbnail.jpg"
-                  alt="A cropped photo of one of Kevin's furniture projects"
+                  alt="One of Kevin's furniture projects"
                 />
                 <Spacer height="1em" />
                 <Text fontSize="label">Woodworking</Text>
