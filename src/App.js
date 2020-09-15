@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import ReactGA from 'react-ga';
 import moment from 'moment';
 import {
-  faFile,
-  faMapMarkedAlt,
-  faImages,
-} from '@fortawesome/free-solid-svg-icons';
-import {
   faGithub,
   faLinkedin,
   faReddit,
@@ -105,6 +100,7 @@ const App = () => {
                   style={{ border: '3px solid #5f6167', borderRadius: '10px' }}
                   height="160px"
                   src="/img/covid19-app-thumbnail.jpg"
+                  alt="Sceenshot from Kevin's COVID-19 Map web app"
                 />
                 <Spacer height="1em" />
                 <Text fontSize="label">COVID-19</Text>
@@ -120,6 +116,7 @@ const App = () => {
                   style={{ border: '3px solid #5f6167', borderRadius: '10px' }}
                   height="160px"
                   src="/img/woodworking-thumbnail.jpg"
+                  alt="A cropped photo of one of Kevin's furniture projects"
                 />
                 <Spacer height="1em" />
                 <Text fontSize="label">Woodworking</Text>
@@ -131,6 +128,7 @@ const App = () => {
                   style={{ border: '3px solid #5f6167', borderRadius: '10px' }}
                   height="160px"
                   src="/img/resume-thumbnail.jpg"
+                  alt="Resume thumbnail"
                 />
                 <Spacer height="1em" />
                 <Text fontSize="label">Resume</Text>
