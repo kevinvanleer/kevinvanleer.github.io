@@ -82,7 +82,7 @@ const App = () => {
             the best way to gain the respect and trust of those around you.
           </Text>
         </main>
-        <Spacer height="5em" />
+        <Spacer height="10em" />
         <Text centerAlign fontSize="2em" color="#38c9e4">
           Some of my projects
         </Text>
