@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/static/js/main.bf05eae7.chunk.js",
-    "main.js.map": "/static/js/main.bf05eae7.chunk.js.map",
+    "main.js": "/static/js/main.2f65e733.chunk.js",
+    "main.js.map": "/static/js/main.2f65e733.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.567d1d97.js",
     "runtime-main.js.map": "/static/js/runtime-main.567d1d97.js.map",
     "static/js/2.4863e890.chunk.js": "/static/js/2.4863e890.chunk.js",
     "static/js/2.4863e890.chunk.js.map": "/static/js/2.4863e890.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.41bebab39a92af726123740c135e8997.js": "/precache-manifest.41bebab39a92af726123740c135e8997.js",
+    "precache-manifest.47a0ea8b501697b9949a3a5aeaf5802c.js": "/precache-manifest.47a0ea8b501697b9949a3a5aeaf5802c.js",
     "service-worker.js": "/service-worker.js",
     "static/js/2.4863e890.chunk.js.LICENSE.txt": "/static/js/2.4863e890.chunk.js.LICENSE.txt",
     "static/media/cyclotrack-app.svg": "/static/media/cyclotrack-app.0fbe5f0a.svg"
@@ -15,6 +15,6 @@
   "entrypoints": [
     "static/js/runtime-main.567d1d97.js",
     "static/js/2.4863e890.chunk.js",
-    "static/js/main.bf05eae7.chunk.js"
+    "static/js/main.2f65e733.chunk.js"
   ]
 }
