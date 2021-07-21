@@ -1,19 +1,20 @@
 {
   "files": {
-    "main.js": "/static/js/main.d72cd29a.chunk.js",
-    "main.js.map": "/static/js/main.d72cd29a.chunk.js.map",
+    "main.js": "/static/js/main.eda561a0.chunk.js",
+    "main.js.map": "/static/js/main.eda561a0.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.567d1d97.js",
     "runtime-main.js.map": "/static/js/runtime-main.567d1d97.js.map",
-    "static/js/2.7e31260a.chunk.js": "/static/js/2.7e31260a.chunk.js",
-    "static/js/2.7e31260a.chunk.js.map": "/static/js/2.7e31260a.chunk.js.map",
+    "static/js/2.4863e890.chunk.js": "/static/js/2.4863e890.chunk.js",
+    "static/js/2.4863e890.chunk.js.map": "/static/js/2.4863e890.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.f5beb4fb1956268c6af47fa7eef19fb1.js": "/precache-manifest.f5beb4fb1956268c6af47fa7eef19fb1.js",
+    "precache-manifest.e87accc8d58bd3ec5246cc1d4b1e820e.js": "/precache-manifest.e87accc8d58bd3ec5246cc1d4b1e820e.js",
     "service-worker.js": "/service-worker.js",
-    "static/js/2.7e31260a.chunk.js.LICENSE.txt": "/static/js/2.7e31260a.chunk.js.LICENSE.txt"
+    "static/js/2.4863e890.chunk.js.LICENSE.txt": "/static/js/2.4863e890.chunk.js.LICENSE.txt",
+    "static/media/cyclotrack-app.svg": "/static/media/cyclotrack-app.0fbe5f0a.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.567d1d97.js",
-    "static/js/2.7e31260a.chunk.js",
-    "static/js/main.d72cd29a.chunk.js"
+    "static/js/2.4863e890.chunk.js",
+    "static/js/main.eda561a0.chunk.js"
   ]
 }
