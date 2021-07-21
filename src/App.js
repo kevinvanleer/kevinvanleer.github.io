@@ -12,6 +12,7 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import { Flexbox, Text, Link, Icon, Spacer } from 'kvl-react-ui';
+import cyclotrackLogo from './cyclotrack-app.svg';
 
 const Title = styled(Text)`
   font-size: 32px;
@@ -94,6 +95,20 @@ const App = () => {
             marginBetween="1em"
             wrapMargin="1em"
           >
+            <Link color="#84878e" href="http://kevinvanleer.com/cyclotrack/#/">
+              <Flexbox flexDirection="column" alignItems="center">
+                <img
+                  style={{ border: '3px solid #5f6167', borderRadius: '10px' }}
+                  height="160px"
+                  width="256px"
+                  src={cyclotrackLogo}
+                  alt="Cyclotrack logo"
+                />
+                <Spacer height="1em" />
+                <Text fontSize="label">Cyclotrack</Text>
+                <Text fontSize="detail">GPS/BLE cycle computer</Text>
+              </Flexbox>
+            </Link>
             <Link color="#84878e" href="http://covid19.kevinvanleer.com">
               <Flexbox flexDirection="column" alignItems="center">
                 <img
