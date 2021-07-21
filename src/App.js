@@ -56,9 +56,11 @@ const App = () => {
             src="/kev-n-jill-960.webp"
             style={{ width: '100%' }}
           />
-          <Title color="#ef8f00">kevinvanleer.com</Title>
+          <Title color="#ef8f00" marginLeft="-0.75%">
+            kevinvanleer.com
+          </Title>
         </Flexbox>
-        <Spacer height="5em" />
+        <Spacer height="4em" />
         <main tabIndex="0">
           <Text fontSize="label">
             Hi, I’m Kevin Van Leer, husband, father of three, and
@@ -87,7 +89,7 @@ const App = () => {
         <Text centerAlign fontSize="2em" color="#38c9e4">
           Some of my projects
         </Text>
-        <Spacer height="2em" />
+        <Spacer height="4em" />
         <nav>
           <Flexbox
             justifyContent="space-around"
@@ -155,7 +157,7 @@ const App = () => {
         <Text centerAlign fontSize="2em" color="#38c9e4">
           More about me
         </Text>
-        <Spacer height="2em" />
+        <Spacer height="4em" />
         <nav>
           <Flexbox
             marginBetween="1em"
