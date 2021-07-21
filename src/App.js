@@ -74,15 +74,15 @@ const App = () => {
           <Text fontSize="label">
             I’ve been writing software for {moment('2004-06-12').fromNow(true)}{' '}
             and leading software teams for{' '}
-            {moment('2008').fromNow(true).split(' ')[0]}. I’m passionate about
-            beautiful, easy-to-use software, as much as I am about
-            well-structured, easy-to-read code. I’m an advocate for Agile
-            software development principles, automated testing, and continuous
-            integration and deployment. I enjoy leading teams, coaching,
-            mentoring, and inspiring colleagues to be their best. I believe
-            collaboration and transparency are key traits of a highly
-            functioning team, and that straightforward honest communication is
-            the best way to gain the respect and trust of those around you.
+            {moment('2008').fromNow(true).split(' ')[0]}. I build beautiful,
+            easy-to-use software, and well-structured, easy-to-read code. I
+            cultivate a culture centered on Agile software development
+            principles, automated testing, and continuous integration and
+            deployment. I enjoy leading teams, coaching, mentoring, and
+            inspiring colleagues to be their best. I believe collaboration and
+            transparency are key traits of high-functioning teams, and that
+            straightforward honest communication is the best way to gain the
+            respect and trust of those around you.
           </Text>
         </main>
         <Spacer height="10em" />
