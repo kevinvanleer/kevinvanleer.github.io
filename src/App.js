@@ -53,12 +53,28 @@ const App = () => {
         <Flexbox flexDirection="column">
           <img
             alt="Kevin and his wife Jillian in Acadia National Park"
-            src="/kev-n-jill-960.webp"
+            src="/img/pro-2-cropped-square.webp"
             style={{ width: '100%' }}
           />
           <Title color="#ef8f00" marginLeft="-0.75%">
             kevinvanleer.com
           </Title>
+        </Flexbox>
+        <Spacer height="4em" />
+        <Flexbox flexDirection="column" alignItems="center">
+          <Text centerAlign fontSize="2em">
+            Part of the awesome team at
+          </Text>
+          <Spacer height="1em" />
+          <Link href="https://www.akadenia.com">
+            <Flexbox justifyContent="center">
+              <img
+                alt="akadenia logo"
+                src="/img/akadenia.png"
+                style={{ width: '50%' }}
+              />
+            </Flexbox>
+          </Link>
         </Flexbox>
         <Spacer height="4em" />
         <main tabIndex="0">
@@ -155,9 +171,9 @@ const App = () => {
         </nav>
         <Spacer flexGrow={1} height="10em" />
         <Text centerAlign fontSize="2em" color="#38c9e4">
-          More about me
+          Find out more at
         </Text>
-        <Spacer height="4em" />
+        <Spacer height="2em" />
         <nav>
           <Flexbox
             marginBetween="1em"
