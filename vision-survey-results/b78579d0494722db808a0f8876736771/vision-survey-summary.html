@@ -1,0 +1,357 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vision Weekend Survey Results</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root { --paper:#F7F5EF; --ink:#26251F; --ink-soft:#5C594E; --line:#DDD8CA; --card:#FFFFFF;
+  --root:#3E6B52; --steward:#A8741E; --sent:#44618F; --warn:#9A4A2E;
+  --s5:#33639B; --s4:#8AABD1; --s3:#D8B65C; --s2:#C08468; --s1:#9A4A2E;
+  --measure:620px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper:#1D1C18; --ink:#E8E4D8; --ink-soft:#A39F90; --line:#3A382F; --card:#262520;
+  --root:#7FB295; --steward:#D3A155; --sent:#8AA5D0; --warn:#D08663;
+  --s5:#375E8B; --s4:#748EAC; --s3:#A8894A; --s2:#A57B6E; --s1:#A54A36; } }
+:root[data-theme="dark"] {
+  --paper:#1D1C18; --ink:#E8E4D8; --ink-soft:#A39F90; --line:#3A382F; --card:#262520;
+  --root:#7FB295; --steward:#D3A155; --sent:#8AA5D0; --warn:#D08663;
+  --s5:#375E8B; --s4:#748EAC; --s3:#A8894A; --s2:#A57B6E; --s1:#A54A36; }
+body { background:var(--paper); color:var(--ink); font-family:"IBM Plex Sans",Arial,sans-serif;
+  font-size:15px; line-height:1.5; margin:0; padding:2.5rem 1.25rem 4rem; }
+main { max-width:820px; margin:0 auto; display:flex; flex-direction:column; gap:2.25rem; }
+h1,h2,h3 { font-family:"Fraunces",Georgia,serif; margin:0; text-wrap:balance; }
+h1 { font-size:2.1rem; } h2 { font-size:1.35rem; } h3 { font-size:1.05rem; }
+.eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.7rem; font-weight:600; color:var(--ink-soft); margin-bottom:.5rem; }
+.lede { color:var(--ink-soft); max-width:var(--measure); margin:.6rem 0 0; }
+section > p, section > div > p, .chart > p, .charts p { max-width:var(--measure); }
+.charts .chart > p { max-width:none; }
+.tiles { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem .75rem; margin-top:1.25rem; }
+@media (max-width:640px) { .tiles { grid-template-columns:repeat(2,1fr); } }
+.tile { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:1rem; }
+.tile b { display:block; font-family:"Fraunces",Georgia,serif; font-size:1.6rem; }
+.tile span { font-size:.78rem; color:var(--ink-soft); }
+.keybar { display:flex; align-items:center; gap:.5rem; margin-top:1rem; font-size:.75rem; color:var(--ink-soft); flex-wrap:wrap; }
+.keybar i { display:inline-block; width:14px; height:14px; border-radius:2px; font-style:normal; }
+.qcards { display:grid; grid-template-columns:repeat(auto-fit,minmax(285px,1fr)); gap:1.4rem 1rem; }
+.qcards + .qcards { margin-top:1.4rem; }
+.qcards + .subhead { margin-top:2.1rem; }
+h2 + .subhead, p + .subhead { margin-top:1rem; }
+.qcard { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:1.15rem 1.1rem; }
+.qcard h4 { font-family:"IBM Plex Sans",Arial,sans-serif; font-size:.88rem; font-weight:600;
+  margin:0 0 .65rem; line-height:1.3; }
+.bars { display:flex; flex-direction:column; gap:3px; }
+.br { display:grid; grid-template-columns:.9em 1fr 1.6em; gap:.55rem; align-items:center; }
+.bn { font-size:.7rem; color:var(--ink-soft); }
+.btrk i { display:block; height:11px; border-radius:0 3px 3px 0; }
+.bc { font-size:.72rem; color:var(--ink-soft); text-align:right; font-variant-numeric:tabular-nums; }
+.cfoot { margin:.65rem 0 0; font-size:.72rem; color:var(--ink-soft); }
+.strip { display:flex; height:20px; border-radius:3px; overflow:hidden; }
+.strip span { display:flex; align-items:center; justify-content:center; height:100%;
+  font-size:.68rem; font-weight:600; color:var(--paper); }
+.s5 { background:var(--s5); } .s4 { background:var(--s4); } .s3 { background:var(--s3); }
+.s2 { background:var(--s2); } .s1 { background:var(--s1); }
+.s3, .s4 { color:var(--ink); }
+:root[data-theme="dark"] .s4 { color:var(--paper); }
+:root[data-theme="dark"] .s1, :root[data-theme="dark"] .s3,
+:root[data-theme="dark"] .s5 { color:var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .s4 { color:var(--paper); }
+  :root:not([data-theme="light"]) .s1, :root:not([data-theme="light"]) .s3,
+  :root:not([data-theme="light"]) .s5 { color:var(--ink); } }
+.why { font-size:.9rem; color:var(--ink-soft); max-width:var(--measure); border-left:3px solid var(--line);
+  padding:.4rem 1rem; margin:.9rem 0 0; }
+.why strong { color:var(--ink); }
+.callout { border-left:3px solid var(--steward); background:var(--card); border-radius:0 6px 6px 0; padding:1rem 1.25rem; max-width:calc(var(--measure) + 2.5rem); }
+.callout p { margin:0; }
+.finding { border-left:3px solid var(--root); background:var(--card); border-radius:0 6px 6px 0; padding:1rem 1.25rem; margin:.75rem 0; max-width:calc(var(--measure) + 2.5rem); }
+.finding p { margin:0; }
+.finding .fh { font-weight:600; font-family:"Fraunces",Georgia,serif; margin-bottom:.25rem; }
+blockquote { margin:.75rem 0; padding:.6rem 1.1rem; border-left:4px solid var(--line); background:var(--card);
+  border-radius:0 6px 6px 0; font-style:italic; font-size:.9rem;
+  max-width:calc(var(--measure) + 2.2rem); }
+blockquote.r3 { border-left-color: var(--s3); background: color-mix(in srgb, var(--s3) 13%, var(--card)); }
+blockquote.r8 { border-left-color: var(--s4); background: color-mix(in srgb, var(--s4) 13%, var(--card)); }
+blockquote.r10 { border-left-color: var(--s5); background: color-mix(in srgb, var(--s5) 13%, var(--card)); }
+blockquote.r14 { border-left-color: var(--s4); background: color-mix(in srgb, var(--s4) 13%, var(--card)); }
+blockquote.r16 { border-left-color: var(--s4); background: color-mix(in srgb, var(--s4) 13%, var(--card)); }
+blockquote.r20 { border-left-color: var(--s4); background: color-mix(in srgb, var(--s4) 13%, var(--card)); }
+blockquote.r21 { border-left-color: var(--s3); background: color-mix(in srgb, var(--s3) 13%, var(--card)); }
+blockquote.r24 { border-left-color: var(--s4); background: color-mix(in srgb, var(--s4) 13%, var(--card)); }
+blockquote.r25 { border-left-color: var(--s3); background: color-mix(in srgb, var(--s3) 13%, var(--card)); }
+.uno { background:none; box-shadow:inset 0 0 0 1px var(--line); border-radius:3px; }
+.bargrid { display:grid; grid-template-columns:max-content 1fr 1.6em;
+  column-gap:.55rem; row-gap:3px; align-items:center; }
+.blab { font-size:.76rem; color:var(--ink); white-space:nowrap; }
+.legend { font-size:.8rem; color:var(--ink-soft); }
+.agenda { display:flex; flex-direction:column; gap:.6rem;
+  max-width:calc(var(--measure) + 2rem); }
+.agenda div { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:.75rem 1rem; }
+.agenda .ah { font-weight:600; font-family:"Fraunces",Georgia,serif; }
+.agenda p { margin:.2rem 0 0; font-size:.88rem; color:var(--ink-soft); }
+.methods { font-size:.8rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:1rem; max-width:var(--measure); }
+.methods li { margin:.35rem 0; }
+.subhead { font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft);
+  font-weight:600; margin:.35rem 0 .55rem; }
+.qlegend { display:flex; flex-wrap:wrap; gap:.45rem 1.2rem; margin-top:.6rem;
+  font-size:.78rem; color:var(--ink-soft); }
+.qlegend span { display:flex; align-items:center; gap:.4rem; }
+.qlegend i { font-style:normal; font-weight:700; color:var(--ink); flex:none; }
+.charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:1.4rem 1rem; }
+.chart { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:1.25rem 1.1rem; }
+.chart h3 { font-size:.95rem; margin-bottom:.15rem; }
+.chart p { font-size:.78rem; color:var(--ink-soft); margin:0 0 .5rem; }
+.heat { display:grid; grid-template-columns:3.2em repeat(6,minmax(0,1fr)) 2.4em;
+  gap:2px; align-items:center;
+  background:var(--card); border:1px solid var(--line); border-radius:6px; padding:1rem 1.1rem; }
+.heat .hh { font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft);
+  font-weight:600; padding-bottom:.3rem; text-align:center; overflow-wrap:anywhere; }
+.heat .habbr { display:none; }
+@media (max-width:620px) {
+  .heat { grid-template-columns:2.4em repeat(6,minmax(0,1fr)) 2em; padding:.9rem .7rem; }
+  .heat .hh { font-size:.55rem; letter-spacing:0; }
+  .heat .hfull { display:none; }
+  .heat .habbr { display:inline; }
+  .heat .hr, .heat .hm { font-size:.58rem; }
+}
+.heat .hh:first-child, .heat .hh:last-child { text-align:right; }
+.heat .hr { font-size:.66rem; color:var(--ink-soft); text-align:right; padding-right:.3rem;
+  font-variant-numeric:tabular-nums; }
+.heat .hc { height:13px; border-radius:2px; }
+.heat .hm { font-size:.66rem; color:var(--ink-soft); text-align:right;
+  font-variant-numeric:tabular-nums; }
+.heat .hsil { background:repeating-linear-gradient(45deg,var(--line),var(--line) 1.5px,
+  transparent 1.5px,transparent 4.5px); box-shadow:inset 0 0 0 1px var(--line); }
+.heat .hgap { grid-column:1/-1; height:7px; }
+@media print {
+  body { background:#fff; color:#111; padding:0; font-size:11px; }
+  :root { --paper:#fff; --ink:#111; --ink-soft:#444; --line:#bbb; --card:#fff; }
+  .lk, .finding, .agenda div, blockquote, .tile, .gcard { break-inside:avoid; }
+  .gsec { break-after:avoid; }
+  .chart, .panel, .heat, .qcard { break-inside:avoid; }
+}
+@media (max-width: 560px) {
+  .lkrow { grid-template-columns:1fr 2.6em; }
+  .lkrow .lkn { grid-column:1 / -1; }
+}
+/* ---- written-response visuals, shared with build_written.py ---- */
+.panel { background:var(--card); border:1px solid var(--line); border-radius:6px;
+  padding:1.25rem 1.15rem; }
+.note { font-size:.75rem; color:var(--ink-soft); font-style:italic; margin:.6rem 0 0; }
+.two { display:grid; grid-template-columns:repeat(auto-fit,minmax(285px,1fr)); gap:1.4rem 1rem; }
+.ph3 { font-family:"IBM Plex Sans",Arial,sans-serif; font-size:.88rem; font-weight:600;
+  margin:0 0 .7rem; }
+.cr { display:grid; grid-template-columns:11em 1fr 1.6em; gap:.6rem;
+  align-items:center; margin:7px 0; }
+.cw { font-size:.84rem; font-weight:600; line-height:1.25; }
+.cw em { display:block; font-style:normal; font-weight:400; font-size:.7rem;
+  color:var(--ink-soft); margin-top:1px; }
+.ctrk i { display:block; height:13px; border-radius:0 3px 3px 0; background:var(--s5); }
+.cc { font-size:.8rem; font-weight:600; text-align:right; }
+.arcrow { display:grid; grid-template-columns:2.4em 1fr 2.6em; gap:.6rem;
+  align-items:center; margin:4px 0; }
+.arcid { font-size:.72rem; color:var(--ink-soft); }
+.arcid em { font-style:normal; color:var(--ink); font-weight:600; }
+.arc { display:flex; gap:2px; height:15px; }
+.arc i { display:block; border-radius:2px; }
+.p0 { background:var(--s1); } .p1 { background:var(--s2); } .p2 { background:var(--s3); }
+.p3 { background:var(--s4); } .p4 { background:var(--s5); }
+.arcn { font-size:.68rem; color:var(--ink-soft); text-align:right; }
+.tg { display:grid; grid-template-columns:3em repeat(5,1fr); gap:3px;
+  align-items:center; margin:3px 0; }
+.tgh { font-size:.64rem; text-transform:uppercase; letter-spacing:.04em;
+  color:var(--ink-soft); text-align:center; line-height:1.2; }
+.tgid { font-size:.72rem; color:var(--ink-soft); }
+.tgid em { font-style:normal; color:var(--ink); font-weight:600; }
+.tgc { height:16px; border-radius:3px; box-shadow:inset 0 0 0 1px var(--line); }
+.tgc.on { background:var(--s5); box-shadow:none; }
+@media (max-width:620px) { .cr { grid-template-columns:1fr 1.6em; }
+  .cr .ctrk { grid-column:1/-1; } }
+a { color:var(--sent); text-underline-offset:2px; }
+a:hover { color:var(--ink); }
+.swarm { width:100%; height:auto; display:block; overflow:visible; }
+.sw-grid { stroke:var(--line); stroke-width:1; }
+.sw-tick, .sw-meanlab { fill:var(--ink-soft); font-size:9px; text-anchor:middle; }
+.sw-meanlab { fill:var(--ink); font-weight:600; }
+.sw-lane { fill:var(--ink); font-size:10px; font-weight:600; }
+.sw-floor { stroke:var(--ink-soft); stroke-width:1; stroke-dasharray:3 3; opacity:.8; }
+.sw-floorlab { fill:var(--ink-soft); font-size:9px; text-anchor:middle; }
+.sw-mean { stroke:var(--ink); stroke-width:2; }
+.sw-dot { stroke:var(--card); stroke-width:1; }
+.f1 { fill:var(--s1); } .f2 { fill:var(--s2); } .f3 { fill:var(--s3); }
+.f4 { fill:var(--s4); } .f5 { fill:var(--s5); }
+.split { display:grid; grid-template-columns:1.35fr 1fr;
+  gap:1.4rem; align-items:center; }
+.split .stxt p:first-child { margin-top:0; }
+.split .sfig svg { display:block; width:100%; height:auto; overflow:visible; }
+@media (max-width:640px) { .split { grid-template-columns:1fr; } }
+.kinds { display:grid; grid-template-columns:max-content 1fr; gap:.3rem .7rem;
+  margin:0; font-size:.78rem; color:var(--ink-soft); }
+.kinds dt { font-weight:600; color:var(--ink); }
+.kinds dd { margin:0; }
+
+/* ---- data document: one question per row, survey order ---- */
+.gsec { font-size:1.1rem; line-height:1.2; margin:1.9rem 0 .4rem; }
+.gsec:first-of-type { margin-top:1rem; }
+.gcard { background:var(--card); border:1px solid var(--line); border-radius:6px;
+  padding:.95rem 1.2rem; margin-bottom:.45rem; }
+.gq { font-size:.92rem; font-weight:600; margin:0; line-height:1.3; max-width:none; }
+.gn { font-size:.75rem; color:var(--ink-soft); margin:.2rem 0 .5rem; max-width:none; }
+.gcard .bars, .gcard .bargrid { max-width:44rem; }
+.gcard .cfoot { margin-top:.5rem; }
+.bargrid.opts { grid-template-columns:19em 1fr 2em; row-gap:5px; }
+.blab.wrap { white-space:normal; line-height:1.25; }
+.blab .st { color:var(--ink-soft); }
+@media (max-width:620px) { .bargrid.opts { grid-template-columns:1fr 2em; }
+  .bargrid.opts .blab { grid-column:1/-1; } }
+
+</style>
+<main>
+<header>
+<p class="eyebrow">Vision Weekend Survey &middot; Results &middot; September 2026</p>
+<h1>What the team said</h1>
+<p class="lede">25 of 35 participants responded, averaging 4.1 of 5
+across the 25 rating questions. The vision statement and the core values draw the
+strongest agreement: 76&ndash;100%, with Worship and Discipleship the highest-rated items
+in the survey. The emphasis follows at 72&ndash;80%. The four objectives hold
+68&ndash;88% support but 60&ndash;64% understanding, and are where low ratings
+concentrate. The lowest figure in the survey is confidence that the work will shape the
+decisions the church makes (64%); the highest end-of-survey figure is willingness
+to stay involved (21 of 25).</p>
+<div class="tiles">
+<div class="tile"><b>4.1</b><span>average rating, all 25 questions (1&ndash;5)</span></div>
+<div class="tile"><b>25 of 35</b><span>responded (71%)</span></div>
+<div class="tile"><b>22 of 25</b><span>support the vision statement (88%)</span></div>
+<div class="tile"><b>11 of 25</b><span>clear on all four objectives (44%)</span></div>
+<div class="tile"><b>16 of 25</b><span>confident it will shape decisions (64%)</span></div>
+<div class="tile"><b>16 of 25</b><span>want to reconvene either way (64%)</span></div>
+</div>
+</header>
+
+<section>
+<h2>Overview</h2>
+<div class="chart">
+<h3 id="rad1">By what the question asked</h3>
+<p>Every rating question sorted by the kind of judgment it called for, with the
+vision, values, emphasis and objectives pooled together. Each spoke is the percent
+agreeing (4&ndash;5) on that kind of question. Rings mark 25, 50, 75 and 100%: the outer
+ring is unanimous.</p>
+<div class="split">
+<div class="sfig"><svg viewBox="0 0 312 258" width="100%" role="img" aria-labelledby="rad1"><polygon points="166.0,96.2 186.6,108.1 186.6,131.9 166.0,143.8 145.4,131.9 145.4,108.1" fill="none" stroke="var(--line)" stroke-width="0.8"/><polygon points="166.0,72.5 207.1,96.2 207.1,143.8 166.0,167.5 124.9,143.8 124.9,96.2" fill="none" stroke="var(--line)" stroke-width="0.8"/><polygon points="166.0,48.8 227.7,84.4 227.7,155.6 166.0,191.2 104.3,155.6 104.3,84.4" fill="none" stroke="var(--line)" stroke-width="0.8"/><polygon points="166.0,25.0 248.3,72.5 248.3,167.5 166.0,215.0 83.7,167.5 83.7,72.5" fill="none" stroke="var(--line)" stroke-width="1.4"/><line x1="166" y1="120" x2="166.0" y2="25.0" stroke="var(--line)" stroke-width="1"/><line x1="166" y1="120" x2="248.3" y2="72.5" stroke="var(--line)" stroke-width="1"/><line x1="166" y1="120" x2="248.3" y2="167.5" stroke="var(--line)" stroke-width="1"/><line x1="166" y1="120" x2="166.0" y2="215.0" stroke="var(--line)" stroke-width="1"/><line x1="166" y1="120" x2="83.7" y2="167.5" stroke="var(--line)" stroke-width="1"/><line x1="166" y1="120" x2="83.7" y2="72.5" stroke="var(--line)" stroke-width="1"/><polygon points="166.0,39.8 227.8,84.3 231.8,158.0 166.0,196.0 110.1,152.3 96.9,80.1" fill="var(--s5)" fill-opacity=".18" stroke="var(--s5)" stroke-width="2"/><circle cx="166.0" cy="39.8" r="3.5" fill="var(--s5)"/><text x="166.0" y="6.0" text-anchor="middle" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">Support</text><text x="166.0" y="19.0" text-anchor="middle" dy="4" font-size="10.5" fill="var(--ink-soft)">84%</text><circle cx="227.8" cy="84.3" r="3.5" fill="var(--s5)"/><text x="264.7" y="63.0" text-anchor="start" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">Clarity</text><text x="264.7" y="76.0" text-anchor="start" dy="4" font-size="10.5" fill="var(--ink-soft)">75%</text><circle cx="231.8" cy="158.0" r="3.5" fill="var(--s5)"/><text x="264.7" y="177.0" text-anchor="start" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">My view</text><text x="264.7" y="190.0" text-anchor="start" dy="4" font-size="10.5" fill="var(--ink-soft)">80%</text><circle cx="166.0" cy="196.0" r="3.5" fill="var(--s5)"/><text x="166.0" y="234.0" text-anchor="middle" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">Group view</text><text x="166.0" y="247.0" text-anchor="middle" dy="4" font-size="10.5" fill="var(--ink-soft)">80%</text><circle cx="110.1" cy="152.3" r="3.5" fill="var(--s5)"/><text x="67.3" y="177.0" text-anchor="end" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">Confidence</text><text x="67.3" y="190.0" text-anchor="end" dy="4" font-size="10.5" fill="var(--ink-soft)">68%</text><circle cx="96.9" cy="80.1" r="3.5" fill="var(--s5)"/><text x="67.3" y="63.0" text-anchor="end" dy="4" font-size="11.5" font-weight="600" fill="var(--ink)">Commitment</text><text x="67.3" y="76.0" text-anchor="end" dy="4" font-size="10.5" fill="var(--ink-soft)">84%</text></svg></div>
+<div class="stxt">
+<dl class="kinds">
+<dt>Support</dt><dd>do I back this?</dd>
+<dt>Clarity</dt><dd>do I know what it asks of our church?</dd>
+<dt>My view</dt><dd>does it reflect me?</dd>
+<dt>Group view</dt><dd>does it reflect the team?</dd>
+<dt>Confidence</dt><dd>will it matter?</dd>
+<dt>Commitment</dt><dd>will I stay involved?</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div class="chart" style="margin-top:1rem">
+<h3>Support and understanding</h3>
+<p>Dashed lines: a simple majority. Shaded box: 75% or better on both.
+&ldquo;Understand&rdquo; throughout this report is the survey&rsquo;s own wording: what an
+item means for our church, or what pursuing it would look like, not whether the words are
+clear. That question was never asked of the vision statement, so its hollow marker sits at
+its support level. The follow-up checkboxes support that placement: of the four people who
+flagged the vision section, none checked &ldquo;I don&rsquo;t fully understand it.&rdquo; Only
+Worship and Discipleship match that, on one flag each. Every other item drew the reason,
+from three flags on the emphasis to ten on Effectiveness.</p>
+<svg viewBox="0 0 430 330" width="100%" role="img" aria-label="Support versus understanding by item"><rect x="56" y="26" width="320" height="242" fill="none" stroke="var(--line)"/><line x1="56" y1="26" x2="56" y2="268" stroke="var(--line)" stroke-width=".5"/><line x1="56" y1="268" x2="376" y2="268" stroke="var(--line)" stroke-width=".5"/><text x="56" y="282" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">0</text><text x="48" y="268" text-anchor="end" dy="3.5" font-size="9.5" fill="var(--ink-soft)">0</text><line x1="136" y1="26" x2="136" y2="268" stroke="var(--line)" stroke-width=".5"/><line x1="56" y1="208" x2="376" y2="208" stroke="var(--line)" stroke-width=".5"/><text x="136" y="282" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">25</text><text x="48" y="208" text-anchor="end" dy="3.5" font-size="9.5" fill="var(--ink-soft)">25</text><line x1="216" y1="26" x2="216" y2="268" stroke="var(--line)" stroke-width=".5"/><line x1="56" y1="147" x2="376" y2="147" stroke="var(--line)" stroke-width=".5"/><text x="216" y="282" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">50</text><text x="48" y="147" text-anchor="end" dy="3.5" font-size="9.5" fill="var(--ink-soft)">50</text><line x1="296" y1="26" x2="296" y2="268" stroke="var(--line)" stroke-width=".5"/><line x1="56" y1="86" x2="376" y2="86" stroke="var(--line)" stroke-width=".5"/><text x="296" y="282" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">75</text><text x="48" y="86" text-anchor="end" dy="3.5" font-size="9.5" fill="var(--ink-soft)">75</text><line x1="376" y1="26" x2="376" y2="268" stroke="var(--line)" stroke-width=".5"/><line x1="56" y1="26" x2="376" y2="26" stroke="var(--line)" stroke-width=".5"/><text x="376" y="282" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">100</text><text x="48" y="26" text-anchor="end" dy="3.5" font-size="9.5" fill="var(--ink-soft)">100</text><rect x="296.0" y="26.0" width="80.0" height="60.5" fill="var(--s5)" fill-opacity=".10" stroke="var(--s5)" stroke-opacity=".5" stroke-dasharray="3 3"/><line x1="216" y1="26" x2="216" y2="268" stroke="var(--ink-soft)" stroke-dasharray="4 3"/><line x1="56" y1="147" x2="376" y2="147" stroke="var(--ink-soft)" stroke-dasharray="4 3"/><text x="62" y="141" font-size="9.5" font-weight="600" fill="var(--ink-soft)" opacity=".8">majority</text><circle cx="337.6" cy="55.0" r="5" fill="var(--card)" stroke="var(--s5)" stroke-width="1.8" stroke-dasharray="2.6 2"/><text x="347.1" y="58.2" text-anchor="start" font-size="9.5" font-weight="600" fill="var(--ink)">Vision</text><circle cx="363.2" cy="26.0" r="5" fill="var(--s5)"/><circle cx="363.2" cy="35.7" r="5" fill="var(--s5)"/><circle cx="324.8" cy="84.1" r="5" fill="var(--s5)"/><circle cx="312.0" cy="64.7" r="5" fill="var(--s5)"/><circle cx="324.8" cy="122.8" r="5.5" fill="var(--s5)"/><text x="324.8" y="122.8" dy="2.5" text-anchor="middle" font-size="7.4" font-weight="700" fill="#fff">1</text><circle cx="337.6" cy="113.1" r="5.5" fill="var(--s5)"/><text x="337.6" y="113.1" dy="2.5" text-anchor="middle" font-size="7.4" font-weight="700" fill="#fff">2</text><circle cx="299.2" cy="122.8" r="5.5" fill="var(--s5)"/><text x="299.2" y="122.8" dy="2.5" text-anchor="middle" font-size="7.4" font-weight="700" fill="#fff">3</text><circle cx="273.6" cy="122.8" r="5.5" fill="var(--s5)"/><text x="273.6" y="122.8" dy="2.5" text-anchor="middle" font-size="7.4" font-weight="700" fill="#fff">4</text><text x="372.7" y="29.2" text-anchor="start" font-size="9.5" font-weight="600" fill="var(--ink)">Worship</text><text x="353.7" y="38.9" text-anchor="end" font-size="9.5" font-weight="600" fill="var(--ink)">Discipleship</text><text x="315.3" y="87.3" text-anchor="end" font-size="9.5" font-weight="600" fill="var(--ink)">Agape</text><text x="302.5" y="67.9" text-anchor="end" font-size="9.5" font-weight="600" fill="var(--ink)">Emphasis</text><text x="216" y="324" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">% who support it &rarr;</text><text x="14" y="147" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-90 14 147)">% who say they understand it &rarr;</text></svg>
+<div class="qlegend"><span><i>1</i>Assessment (Sep–Nov)</span><span><i>2</i>Alignment (Dec–Feb)</span><span><i>3</i>Effectiveness (Mar–May)</span><span><i>4</i>Efficiency (Jun–Aug)</span></div>
+</div>
+<p class="why">The vision statement, the values and the emphasis fall inside the target box. All four
+objectives fall short on the vertical axis, not the horizontal. Every point lies on or
+below the diagonal.</p>
+
+<div style="margin-top:1rem">
+<h3 style="margin-bottom:.5rem">All respondents by dimension</h3>
+<p style="font-size:.85rem;color:var(--ink-soft);margin:0 0 .6rem">One row per person,
+most to least positive. Hover for an average. Hatched rows did not answer. The same scale
+runs through <a href="vision-survey-data.html">the data document</a>.</p>
+<div class="keybar" style="margin:0 0 .7rem">
+<i style="background:var(--s5)"></i> 5 strongly agree
+<i style="background:var(--s4)"></i> 4 agree
+<i style="background:var(--s3)"></i> 3 neutral
+<i style="background:var(--s2)"></i> 2 disagree
+<i style="background:var(--s1)"></i> 1 strongly disagree
+</div>
+<div class="heat"><div class="hh"></div><div class="hh" title="do I back this?"><span class="hfull">Support</span><span class="habbr">Supp</span></div><div class="hh" title="do I know what it asks of our church?"><span class="hfull">Clarity</span><span class="habbr">Clear</span></div><div class="hh" title="does it reflect me?"><span class="hfull">My view</span><span class="habbr">Mine</span></div><div class="hh" title="does it reflect the team?"><span class="hfull">Group view</span><span class="habbr">Group</span></div><div class="hh" title="will it matter?"><span class="hfull">Confidence</span><span class="habbr">Conf</span></div><div class="hh" title="will I stay involved?"><span class="hfull">Commitment</span><span class="habbr">Commit</span></div><div class="hh">avg</div><div class="hr">1</div><div class="hc s5" title="Support: 5.0"></div><div class="hc s5" title="Clarity: 4.9"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s5" title="Group view: 5.0"></div><div class="hc s4" title="Confidence: 4.5"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.9</div><div class="hr">2</div><div class="hc s5" title="Support: 4.7"></div><div class="hc s5" title="Clarity: 4.8"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s5" title="Confidence: 5.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.7</div><div class="hr">3</div><div class="hc s5" title="Support: 5.0"></div><div class="hc s5" title="Clarity: 4.6"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.5"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.7</div><div class="hr">4</div><div class="hc s5" title="Support: 4.9"></div><div class="hc s4" title="Clarity: 4.4"></div><div class="hc s5" title="My view: 5.0"></div><div class="hc s5" title="Group view: 5.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.6</div><div class="hr">5</div><div class="hc s5" title="Support: 5.0"></div><div class="hc s4" title="Clarity: 4.1"></div><div class="hc s5" title="My view: 5.0"></div><div class="hc s5" title="Group view: 5.0"></div><div class="hc s4" title="Confidence: 4.5"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.6</div><div class="hr">6</div><div class="hc s5" title="Support: 4.6"></div><div class="hc s4" title="Clarity: 4.4"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.4</div><div class="hr">7</div><div class="hc s4" title="Support: 4.4"></div><div class="hc s4" title="Clarity: 4.4"></div><div class="hc s5" title="My view: 5.0"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.4</div><div class="hr">8</div><div class="hc s4" title="Support: 4.1"></div><div class="hc s5" title="Clarity: 4.8"></div><div class="hc s5" title="My view: 5.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.4</div><div class="hr">9</div><div class="hc s5" title="Support: 4.6"></div><div class="hc s4" title="Clarity: 4.1"></div><div class="hc s5" title="My view: 5.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.5"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.4</div><div class="hr">10</div><div class="hc s5" title="Support: 4.7"></div><div class="hc s4" title="Clarity: 4.2"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.4</div><div class="hr">11</div><div class="hc s4" title="Support: 4.3"></div><div class="hc s4" title="Clarity: 4.2"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s4" title="Confidence: 4.5"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.3</div><div class="hr">12</div><div class="hc s5" title="Support: 4.6"></div><div class="hc s4" title="Clarity: 4.1"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.3</div><div class="hr">13</div><div class="hc s5" title="Support: 4.6"></div><div class="hc s4" title="Clarity: 3.9"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.2</div><div class="hr">14</div><div class="hc s4" title="Support: 4.2"></div><div class="hc s4" title="Clarity: 4.0"></div><div class="hc s4" title="My view: 4.5"></div><div class="hc s4" title="Group view: 4.5"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.2</div><div class="hr">15</div><div class="hc s4" title="Support: 4.4"></div><div class="hc s4" title="Clarity: 3.9"></div><div class="hc s4" title="My view: 3.5"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">4.1</div><div class="hr">16</div><div class="hc s4" title="Support: 4.0"></div><div class="hc s4" title="Clarity: 3.9"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.0</div><div class="hr">17</div><div class="hc s4" title="Support: 4.1"></div><div class="hc s4" title="Clarity: 4.0"></div><div class="hc s4" title="My view: 3.5"></div><div class="hc s4" title="Group view: 3.5"></div><div class="hc s4" title="Confidence: 4.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">4.0</div><div class="hr">18</div><div class="hc s4" title="Support: 4.2"></div><div class="hc s4" title="Clarity: 3.7"></div><div class="hc s4" title="My view: 3.5"></div><div class="hc s4" title="Group view: 3.5"></div><div class="hc s4" title="Confidence: 3.5"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">3.8</div><div class="hr">19</div><div class="hc s4" title="Support: 3.9"></div><div class="hc s4" title="Clarity: 4.0"></div><div class="hc s4" title="My view: 3.5"></div><div class="hc s4" title="Group view: 3.5"></div><div class="hc s3" title="Confidence: 3.0"></div><div class="hc s3" title="Commitment: 3.0"></div><div class="hm">3.8</div><div class="hr">20</div><div class="hc s3" title="Support: 3.0"></div><div class="hc s4" title="Clarity: 4.1"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s3" title="Confidence: 3.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">3.6</div><div class="hr">21</div><div class="hc s4" title="Support: 4.1"></div><div class="hc s3" title="Clarity: 3.3"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 3.5"></div><div class="hc s3" title="Confidence: 3.0"></div><div class="hc s3" title="Commitment: 3.0"></div><div class="hm">3.6</div><div class="hr">22</div><div class="hc s4" title="Support: 4.0"></div><div class="hc s4" title="Clarity: 3.6"></div><div class="hc s3" title="My view: 3.0"></div><div class="hc s3" title="Group view: 3.0"></div><div class="hc s3" title="Confidence: 3.0"></div><div class="hc s2" title="Commitment: 2.0"></div><div class="hm">3.5</div><div class="hr">23</div><div class="hc s4" title="Support: 3.7"></div><div class="hc s3" title="Clarity: 3.2"></div><div class="hc s3" title="My view: 3.0"></div><div class="hc s4" title="Group view: 3.5"></div><div class="hc s3" title="Confidence: 3.0"></div><div class="hc s3" title="Commitment: 3.0"></div><div class="hm">3.4</div><div class="hr">24</div><div class="hc s3" title="Support: 2.9"></div><div class="hc s2" title="Clarity: 2.4"></div><div class="hc s3" title="My view: 3.0"></div><div class="hc s3" title="Group view: 3.0"></div><div class="hc s2" title="Confidence: 2.0"></div><div class="hc s4" title="Commitment: 4.0"></div><div class="hm">2.7</div><div class="hr">25</div><div class="hc s3" title="Support: 2.7"></div><div class="hc s2" title="Clarity: 2.0"></div><div class="hc s4" title="My view: 4.0"></div><div class="hc s4" title="Group view: 4.0"></div><div class="hc s1" title="Confidence: 1.0"></div><div class="hc s5" title="Commitment: 5.0"></div><div class="hm">2.6</div><div class="hgap"></div><div class="hr">26</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">27</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">28</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">29</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">30</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">31</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">32</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">33</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">34</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div><div class="hr">35</div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hc hsil" title="did not respond"></div><div class="hm">&mdash;</div></div>
+</div>
+<p class="why">Low ratings concentrate in the bottom rows. The Clarity column stays
+mixed all the way up. 10 of 35 did not respond.</p>
+</section>
+
+<section>
+<h2>Additional comments</h2>
+
+<h3>Overall ratings, by whether a respondent commented</h3>
+<p>One dot per respondent, placed by their average across the 25 rating questions.</p>
+<div class="panel"><svg viewBox="0 0 770 168" class="swarm" role="img" aria-label="respondent averages, writers against silent"><line x1="10.0" y1="24" x2="10.0" y2="148" class="sw-grid"/><text x="10.0" y="162" class="sw-tick">1</text><line x1="197.5" y1="24" x2="197.5" y2="148" class="sw-grid"/><text x="197.5" y="162" class="sw-tick">2</text><line x1="385.0" y1="24" x2="385.0" y2="148" class="sw-grid"/><text x="385.0" y="162" class="sw-tick">3</text><line x1="572.5" y1="24" x2="572.5" y2="148" class="sw-grid"/><text x="572.5" y="162" class="sw-tick">4</text><line x1="760.0" y1="24" x2="760.0" y2="148" class="sw-grid"/><text x="760.0" y="162" class="sw-tick">5</text><line x1="482.5" y1="24" x2="482.5" y2="148" class="sw-floor"/><text x="482.5" y="18" class="sw-floorlab">every respondent below 3.5 commented</text><text x="10" y="32" class="sw-lane">Commented (9)</text><circle cx="310.0" cy="54.0" r="4.4" class="sw-dot f3"><title>2.60</title></circle><circle cx="332.5" cy="54.0" r="4.4" class="sw-dot f3"><title>2.72</title></circle><circle cx="452.5" cy="54.0" r="4.4" class="sw-dot f3"><title>3.36</title></circle><circle cx="505.0" cy="54.0" r="4.4" class="sw-dot f4"><title>3.64</title></circle><circle cx="505.0" cy="62.8" r="4.4" class="sw-dot f4"><title>3.64</title></circle><circle cx="527.5" cy="54.0" r="4.4" class="sw-dot f4"><title>3.76</title></circle><circle cx="655.0" cy="54.0" r="4.4" class="sw-dot f4"><title>4.44</title></circle><circle cx="655.0" cy="62.8" r="4.4" class="sw-dot f4"><title>4.44</title></circle><circle cx="700.0" cy="54.0" r="4.4" class="sw-dot f5"><title>4.68</title></circle><line x1="515.8" y1="34" x2="515.8" y2="74" class="sw-mean"/><text x="515.8" y="85" class="sw-meanlab">3.7</text><text x="10" y="100" class="sw-lane">Did not comment (16)</text><circle cx="482.5" cy="122.0" r="4.4" class="sw-dot f4"><title>3.52</title></circle><circle cx="542.5" cy="122.0" r="4.4" class="sw-dot f4"><title>3.84</title></circle><circle cx="565.0" cy="122.0" r="4.4" class="sw-dot f4"><title>3.96</title></circle><circle cx="565.0" cy="130.8" r="4.4" class="sw-dot f4"><title>3.96</title></circle><circle cx="595.0" cy="122.0" r="4.4" class="sw-dot f4"><title>4.12</title></circle><circle cx="610.0" cy="122.0" r="4.4" class="sw-dot f4"><title>4.20</title></circle><circle cx="617.5" cy="130.8" r="4.4" class="sw-dot f4"><title>4.24</title></circle><circle cx="625.0" cy="122.0" r="4.4" class="sw-dot f4"><title>4.28</title></circle><circle cx="632.5" cy="130.8" r="4.4" class="sw-dot f4"><title>4.32</title></circle><circle cx="640.0" cy="122.0" r="4.4" class="sw-dot f4"><title>4.36</title></circle><circle cx="640.0" cy="113.2" r="4.4" class="sw-dot f4"><title>4.36</title></circle><circle cx="655.0" cy="122.0" r="4.4" class="sw-dot f4"><title>4.44</title></circle><circle cx="692.5" cy="122.0" r="4.4" class="sw-dot f5"><title>4.64</title></circle><circle cx="692.5" cy="130.8" r="4.4" class="sw-dot f5"><title>4.64</title></circle><circle cx="707.5" cy="122.0" r="4.4" class="sw-dot f5"><title>4.72</title></circle><circle cx="737.5" cy="122.0" r="4.4" class="sw-dot f5"><title>4.88</title></circle><line x1="625.0" y1="102" x2="625.0" y2="142" class="sw-mean"/><text x="625.0" y="153" class="sw-meanlab">4.3</text></svg>
+<p class="note">Commenters average 3.7 across the 25 rating questions; non-commenters
+average 4.3.</p></div>
+
+<h3 style="margin-top:1.5rem">Topics and sentiment</h3>
+<p>Nine responses coded by hand, by the facilitator with AI assistance. A response can
+appear in several rows. Judgement, not measurement.</p>
+<div class="two">
+<div class="panel"><div class="ph3">Topics raised</div>
+<div class="cr" title="ran out of time, or the group turned away, depending who you ask: #3 #14 #16 #21 #24 #25"><span class="cw">How the weekend ended<em>ran out of time, or the group turned away, depending who you ask</em></span><span class="ctrk"><i style="width:67%"></i></span><span class="cc">6</span></div><div class="cr" title="whether we look at them and cut, and whether we will face it: #3 #10 #21 #24 #25"><span class="cw">Ministry review<em>whether we look at them and cut, and whether we will face it</em></span><span class="ctrk"><i style="width:56%"></i></span><span class="cc">5</span></div><div class="cr" title="who leads this, how they lead, and whether they will: #3 #16 #20 #24"><span class="cw">Leadership<em>who leads this, how they lead, and whether they will</em></span><span class="ctrk"><i style="width:44%"></i></span><span class="cc">4</span></div><div class="cr" title="no metric on the objectives, no clear next step: #3 #8 #21 #25"><span class="cw">Too vague to act on<em>no metric on the objectives, no clear next step</em></span><span class="ctrk"><i style="width:44%"></i></span><span class="cc">4</span></div><div class="cr" title="getting the wider church into what comes next: #3 #16 #20 #25"><span class="cw">The congregation<em>getting the wider church into what comes next</em></span><span class="ctrk"><i style="width:44%"></i></span><span class="cc">4</span></div>
+<p class="note">Four raise leadership, which no rating question asked about.</p></div>
+<div class="panel"><div class="ph3">Sentiment expressed</div>
+<div class="cr" title="with how the weekend went: #3 #14 #16 #20 #21 #24 #25"><span class="cw">Frustration<em>with how the weekend went</em></span><span class="ctrk"><i style="width:78%"></i></span><span class="cc">7</span></div><div class="cr" title="offers to stay involved: #16 #20 #24"><span class="cw">Willingness to help<em>offers to stay involved</em></span><span class="ctrk"><i style="width:33%"></i></span><span class="cc">3</span></div><div class="cr" title="warmth toward members, stated alongside criticism: #3 #20 #25"><span class="cw">Church affection<em>warmth toward members, stated alongside criticism</em></span><span class="ctrk"><i style="width:33%"></i></span><span class="cc">3</span></div><div class="cr" title="for the discussion itself, and the vision statement: #10 #24 #25"><span class="cw">Appreciation<em>for the discussion itself, and the vision statement</em></span><span class="ctrk"><i style="width:33%"></i></span><span class="cc">3</span></div><div class="cr" title="not sure what was decided or how it proceeds: #8 #25"><span class="cw">Confusion<em>not sure what was decided or how it proceeds</em></span><span class="ctrk"><i style="width:22%"></i></span><span class="cc">2</span></div>
+<p class="note">All three who offer to keep working are among the seven who express
+frustration.</p></div>
+</div>
+
+</section>
+
+<section>
+<h2>Observations</h2>
+<p>One reading of the data above, placed last so it frames nothing. Every
+question&rsquo;s own distribution of answers is in
+<a href="vision-survey-data.html">the data document</a>.</p>
+<div class="finding"><p class="fh">The vision and values are confirmed.</p>
+<p>Support for the vision statement runs 22 of 25 at 4&ndash;5. Worship and
+Discipleship scored highest in the survey. Agape belongs (84%) but is less understood
+(76%).</p></div>
+<div class="finding"><p class="fh">Agreement is lower on the objectives than on the vision and values.</p>
+<p>Vision and values 76&ndash;100%. Emphasis 72&ndash;80%. Objectives 68&ndash;88% support
+but 60&ndash;64% understanding. &ldquo;Will shape the decisions our church makes&rdquo;
+sits at 64%, the survey&rsquo;s lowest. On the emphasis the team is surer of itself than
+of each other: ten strongly agree it reflects their own view, four that it reflects the
+group&rsquo;s.</p></div>
+<div class="finding"><p class="fh">Understanding of the objectives is the survey&rsquo;s weakest area.</p>
+<p>9&ndash;10 of 25 score low on understanding for every one of the four. The six
+lowest scorers account for 81 of 131 low ratings (62%), but the gap extends
+past them: 4–5 of the other 19 rate their understanding of each objective low. Support thins across the
+year, Assessment (84%) to Efficiency (68%). Counted per person the team splits rather than
+shading gradually: 11 are clear on all four objectives and 9 on one or
+none, with almost no one in between.</p></div>
+<div class="finding"><p class="fh">Confidence is lower than willingness to stay involved.</p>
+<p>16 agree, 7 neutral and 2 disagree that it will shape decisions: mostly unsure
+rather than opposed. 21 of 25 would gladly stay involved.</p></div>
+<div class="finding"><p class="fh">The framing is held more widely than its origin is remembered.</p>
+<p>21 of 25 agree the ministry-review framing matches their understanding; six cannot
+trace how the team arrived at it. The Genysys report went out with the invitation, so
+agreement here partly tracks who read it that week.</p></div>
+<div class="finding"><p class="fh">The appetite to meet again cannot be read as unanimous.</p>
+<p>Both answers offered were ways to meet, so the question cannot measure opposition to
+meeting. Against the whole invited team, the group asking to meet whatever the results
+show is 16 of 35 (46%).</p></div>
+</section>
+
+<section class="methods">
+<p><strong>About this report.</strong> Prepared by the survey facilitator with AI
+assistance. Reason-checklist questions were answered almost entirely by low scorers as
+instructed (58 of 60 answers) and are summarized as sentiment, not counts. Every closed-ended
+question, in the survey&rsquo;s own wording and order, is in
+<a href="vision-survey-data.html">the data document</a>.</p>
+<p><strong>Caveats.</strong> One person is 4 points, so read patterns rather than single
+differences. The 10 non-respondents are unmeasured and excluded from every figure
+but the response rate. Percent agreeing (4&ndash;5) is sturdier than the means shown in
+hovers. All items were positively worded, so comparisons between pieces are more reliable
+than any single level. The reconvene question offered no way to decline.</p>
+</section>
+</main>
