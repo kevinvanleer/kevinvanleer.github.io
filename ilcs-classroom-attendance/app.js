@@ -4,7 +4,7 @@ const API = 'https://app.sycamoreschool.com/api/v1/';
 // message, the stack, the screen, and the app version: never student data, names, or the token.
 // Empty DSN = reporting off.
 const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
-const VERSION = '11';
+const VERSION = '12';
 let view = 'start', reports = 0;
 
 function report(type, value, stack, extra) {
@@ -262,8 +262,8 @@ function render() {
   // (or left open past midnight), roll forward, unless they picked another date or have unsaved changes.
   let followDay = today();
   const rollDate = () => {
-    if (document.hidden) return;
     const t = today(), el = document.getElementById('date');
+    if (document.hidden || !el) return; // left the attendance screen (sign-out, lock); timer outlives it
     el.max = t;
     if (followDay && followDay !== t && el.value === followDay && !Object.keys(changes()).length) {
       el.value = el.dataset.prev = followDay = t;
