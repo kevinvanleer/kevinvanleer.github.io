@@ -4,7 +4,7 @@ const API = 'https://app.sycamoreschool.com/api/v1/';
 // message, the stack, the screen, and the app version: never student data, names, or the token.
 // Empty DSN = reporting off.
 const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
-const VERSION = '12';
+const VERSION = '13';
 let view = 'start', reports = 0;
 
 function report(type, value, stack, extra) {
@@ -239,7 +239,8 @@ function render() {
           <button id="signout">Sign out</button>
           <p class="note">Signing out removes your token from this device. You will need to paste it again to sign back in.</p></div></div>
     </header>
-    <main><div class="controls"><select id="cls" aria-label="Class">${classes.map(c => `<option value="${esc(c.ID)}"${String(c.ID) === saved ? ' selected' : ''}>${esc(c.Name)}</option>`).join('')}</select></div>
+    <main><div class="controls"><div class="pick"><select id="cls" aria-label="Class">${classes.map(c => `<option value="${esc(c.ID)}"${String(c.ID) === saved ? ' selected' : ''}>${esc(c.Name)}</option>`).join('')}</select></div>
+      <button class="undo" id="reset" hidden>Undo unsaved changes</button></div>
       <ul id="list"></ul>
     </main>
     <footer><p class="summary" id="summary">Loading...</p><button id="submit" disabled>Submit</button><p class="msg" id="msg"></p></footer>`;
@@ -295,6 +296,7 @@ function render() {
   document.getElementById('prev').onclick = () => step(-1);
   document.getElementById('next').onclick = () => step(1);
   document.getElementById('submit').onclick = submit;
+  document.getElementById('reset').onclick = reset;
   document.getElementById('signout').onclick = signOut;
   // Re-marks only students with no saved record; saved and office records keep their status.
   document.querySelectorAll('[data-default]').forEach(b => b.onclick = () => {
@@ -372,9 +374,9 @@ function draw() {
   const taken = Object.keys(existing).length;
   const pending = Object.keys(unsaved).length, btn = document.getElementById('submit');
   document.getElementById('summary').innerHTML = `${roster.length - absent} present, ${absent} absent`
-    + (pending ? ` · <span class="unsaved-count">${pending} not saved</span>` : taken ? ' · saved' : '')
-    + (pending && taken ? ' · <button class="link" id="reset">Undo</button>' : '');
-  document.getElementById('reset')?.addEventListener('click', reset);
+    + (pending ? ` · <span class="unsaved-count">${pending} not saved</span>` : taken ? ' · saved' : '');
+  // Top of the screen, well away from Submit, so it can't be hit by mistake.
+  document.getElementById('reset').hidden = !(pending && taken);
   btn.disabled = !pending;
   btn.textContent = pending ? 'Submit attendance' : taken ? 'Submitted ✓' : 'Submit attendance';
   if (pending) msg('');
