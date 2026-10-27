@@ -4,7 +4,7 @@ const API = 'https://app.sycamoreschool.com/api/v1/';
 // message, the stack, the screen, and the app version: never student data, names, or the token.
 // Empty DSN = reporting off.
 const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
-const VERSION = '10';
+const VERSION = '11';
 let view = 'start', reports = 0;
 
 function report(type, value, stack, extra) {
@@ -33,9 +33,14 @@ const store = {
   get(k) { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
 };
+// Unlocked token for this tab only, so a refresh doesn't ask for fingerprint again; closing the app clears it.
+const session = {
+  get() { try { return sessionStorage.getItem('token') || ''; } catch { return ''; } },
+  set(v) { try { v ? sessionStorage.setItem('token', v) : sessionStorage.removeItem('token'); } catch {} },
+};
 const app = document.getElementById('app');
 const today = () => new Date().toLocaleDateString('en-CA');
-let token = store.get('token'), me = {}, classes = [], roster = [], state = {}, existing = {};
+let token = store.get('token') || session.get(), me = {}, classes = [], roster = [], state = {}, existing = {};
 
 async function api(path, body) {
   const res = await fetch(API + path, {
@@ -103,11 +108,17 @@ async function unlock() {
   const l = JSON.parse(store.get(LOCK));
   const key = await aesKey(await prfFromGet(unb64(l.id), unb64(l.salt)));
   token = new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(l.iv) }, key, unb64(l.ct)));
+  session.set(token);
+}
+
+function forget(...keys) {
+  for (const k of ['token', LOCK, ...keys]) store.set(k, '');
+  session.set('');
+  token = '';
 }
 
 function signOut() {
-  for (const k of ['token', LOCK, 'nolock']) store.set(k, '');
-  token = '';
+  forget('nolock');
   setup();
 }
 
@@ -127,8 +138,7 @@ function lockScreen(error, auto) {
       + 'If the passkey was removed, sign out and paste your token again.');
     // Anything else means the saved lock itself is unusable (bad data, no key from the passkey, decrypt failed).
     report(e.name || "UnlockError", "Saved lock unusable, reset: " + e.message, e.stack);
-    for (const k of ['token', LOCK]) store.set(k, '');
-    token = '';
+    forget();
     setup('Your saved lock could not be opened, so it was reset. Please paste your token again.');
   }); };
   document.getElementById('unlock').onclick = () => attempt(false);
@@ -151,7 +161,8 @@ function offerLock(error) {
 function setup(error) {
   view = "sign-in";
   app.innerHTML = `<div class="setup"><img class="logo" src="ilcs-logo.png" alt="Immanuel Lutheran Church and School" width="399" height="100"><h2>Classroom Attendance</h2>
-    ${ios() && !installed() ? '<p class="hint ios">On iPhone or iPad, tap Share, then <strong>Add to Home Screen</strong>, and open the app from there. In a Safari tab, iOS may delete your token after 7 days without use.</p>' : ''}
+    ${ios() && !installed() ? '<p class="hint install">On iPhone or iPad, tap Share, then <strong>Add to Home Screen</strong>, and open the app from there. In a Safari tab, iOS may delete your token after 7 days without use.</p>'
+      : android() && !installed() ? '<p class="hint install">Tip: install this app from Chrome\'s ⋮ menu &gt; <strong>Install app</strong>, and open it from your home screen.</p>' : ''}
 
     <h3>Getting your token</h3>
     <ol>
@@ -193,8 +204,7 @@ async function start() {
   } catch (e) {
     // Only a rejected token is forgotten; a network failure must not sign the teacher out.
     if (e.status === 401 || e.status === 403) {
-      for (const k of ['token', LOCK]) store.set(k, '');
-      token = '';
+      forget();
       return setup('That token did not work: ' + e.message);
     }
     app.innerHTML = shell(`<p class="msg err">Could not reach Sycamore: ${esc(e.message)}</p><button id="retry">Try again</button>`);
@@ -223,6 +233,9 @@ function render() {
       <button id="today" class="today" hidden>Today</button>
       <div class="avatar"><button id="avatar" aria-label="Account" aria-haspopup="true">${esc(initials())}</button>
         <div class="menu" id="menu" hidden><p>${esc(`${me.FirstName || ''} ${me.LastName || ''}`.trim())}</p>
+          <p class="note">Students not yet marked start as</p>
+          <div class="seg">${['P', 'A'].map(v => `<button data-default="${v}" aria-pressed="${dflt() === v}">${v === 'P' ? 'Present' : 'Absent'}</button>`).join('')}</div>
+          <hr>
           <button id="signout">Sign out</button>
           <p class="note">Signing out removes your token from this device. You will need to paste it again to sign back in.</p></div></div>
     </header>
@@ -283,6 +296,13 @@ function render() {
   document.getElementById('next').onclick = () => step(1);
   document.getElementById('submit').onclick = submit;
   document.getElementById('signout').onclick = signOut;
+  // Re-marks only students with no saved record; saved and office records keep their status.
+  document.querySelectorAll('[data-default]').forEach(b => b.onclick = () => {
+    store.set('default', b.dataset.default === 'A' ? 'A' : '');
+    document.querySelectorAll('[data-default]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    for (const s of roster) if (!existing[s.ID]) state[s.ID] = dflt();
+    draw();
+  });
   const menu = document.getElementById('menu');
   document.getElementById('avatar').onclick = e => { e.stopPropagation(); menu.hidden = !menu.hidden; };
   document.onclick = e => { if (!menu.contains(e.target)) menu.hidden = true; };
@@ -290,9 +310,11 @@ function render() {
 
 // iPadOS reports itself as a Mac, so also check for a touch screen.
 const ios = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const android = () => /Android/.test(navigator.userAgent);
 const installed = () => navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const initials = () => ((me.FirstName || '?').charAt(0) + (me.LastName || '').charAt(0)).toUpperCase();
+const dflt = () => store.get('default') === 'A' ? 'A' : 'P';
 const val = id => document.getElementById(id).value;
 const msg = (text, kind) => { const m = document.getElementById('msg'); m.textContent = text; m.className = 'msg ' + (kind || ''); };
 
@@ -312,17 +334,19 @@ async function load() {
     roster = (data?.Students || []).sort((a, b) => a.LastName.localeCompare(b.LastName) || a.FirstName.localeCompare(b.FirstName));
     existing = {};
     for (const [id, r] of Object.entries(data?.AttendanceResults || {})) if (r.Here) existing[id] = r;
-    state = {};
-    for (const s of roster) {
-      const r = existing[s.ID];
-      state[s.ID] = !r ? 'P' : Number(r.Present) === 1 && !Number(r.Absent) ? 'P'
-                  : Number(r.Absent) === 1 && !Number(r.Present) ? 'A' : 'other';
-    }
-    draw();
+    reset();
   } catch (e) {
     document.getElementById('summary').textContent = '';
     msg('Could not load the class: ' + e.message, 'err');
   }
+}
+
+const savedStatus = r => Number(r.Present) === 1 && !Number(r.Absent) ? 'P' : Number(r.Absent) === 1 && !Number(r.Present) ? 'A' : 'other';
+
+function reset() {
+  state = {};
+  for (const s of roster) state[s.ID] = existing[s.ID] ? savedStatus(existing[s.ID]) : dflt();
+  draw();
 }
 
 function label(s) {
@@ -348,7 +372,9 @@ function draw() {
   const taken = Object.keys(existing).length;
   const pending = Object.keys(unsaved).length, btn = document.getElementById('submit');
   document.getElementById('summary').innerHTML = `${roster.length - absent} present, ${absent} absent`
-    + (pending ? ` · <span class="unsaved-count">${pending} not saved</span>` : taken ? ' · saved' : '');
+    + (pending ? ` · <span class="unsaved-count">${pending} not saved</span>` : taken ? ' · saved' : '')
+    + (pending && taken ? ' · <button class="link" id="reset">Undo</button>' : '');
+  document.getElementById('reset')?.addEventListener('click', reset);
   btn.disabled = !pending;
   btn.textContent = pending ? 'Submit attendance' : taken ? 'Submitted ✓' : 'Submit attendance';
   if (pending) msg('');
@@ -361,7 +387,7 @@ function changes() {
   for (const s of roster) {
     const st = state[s.ID], r = existing[s.ID];
     if (st === 'other') continue;
-    const was = !r ? null : Number(r.Present) === 1 && !Number(r.Absent) ? 'P' : Number(r.Absent) === 1 && !Number(r.Present) ? 'A' : 'other';
+    const was = r ? savedStatus(r) : null;
     if (was === st) continue;
     students[s.ID] = st === 'A' ? { Present: 0, Absent: 1 } : { Present: 1, Absent: 0 };
   }
@@ -393,3 +419,4 @@ async function submit() {
 
 start();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+navigator.storage?.persist?.().catch(() => {});
