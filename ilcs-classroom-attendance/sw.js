@@ -1,6 +1,6 @@
 // App shell only. API calls always go to the network; attendance is never cached.
-const CACHE = 'attendance-v4';
-const SHELL = ['./', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'ilcs-logo.png'];
+const CACHE = 'attendance-v8';
+const SHELL = ['./', 'app.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'ilcs-logo.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
