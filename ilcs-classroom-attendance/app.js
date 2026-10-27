@@ -4,7 +4,7 @@ const API = 'https://app.sycamoreschool.com/api/v1/';
 // message, the stack, the screen, and the app version: never student data, names, or the token.
 // Empty DSN = reporting off.
 const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
-const VERSION = '9';
+const VERSION = '10';
 let view = 'start', reports = 0;
 
 function report(type, value, stack, extra) {
@@ -113,22 +113,27 @@ function signOut() {
 
 const shell = body => `<div class="setup"><img class="logo" src="ilcs-logo.png" alt="Immanuel Lutheran Church and School" width="399" height="100"><h2>Classroom Attendance</h2>${body}</div>`;
 
-function lockScreen(error) {
+// auto: prompt for fingerprint/face as soon as the lock screen opens. Browsers that require a tap
+// first (Safari) refuse that silently, and the Unlock button at the bottom is there for the tap.
+function lockScreen(error, auto) {
   view = "lock";
-  app.innerHTML = shell(`<button id="unlock">Unlock with fingerprint or face</button>
-    <p class="msg err">${esc(error || '')}</p>
-    ${error ? '<button id="forget" class="secondary">Sign out and paste my token again</button>' : '<p class="hint"><button class="link" id="forget">Sign out</button></p>'}`);
-  document.getElementById('unlock').onclick = () => unlock().then(start, e => {
+  app.innerHTML = shell(`<p class="msg err">${esc(error || '')}</p>
+    ${error ? '<button id="forget" class="secondary">Sign out and paste my token again</button>' : '<p class="hint"><button class="link" id="forget">Sign out</button></p>'}`)
+    + '<footer><button id="unlock">Unlock with fingerprint or face</button></footer>';
+  let busy = false;
+  const attempt = quiet => { if (busy) return; busy = true; unlock().finally(() => { busy = false; }).then(start, e => {
     // Browsers report a missing passkey the same way as a cancel, on purpose, so that case can only be explained.
-    if (e.name === 'NotAllowedError') return lockScreen('Unlock was cancelled, or this device no longer has the passkey. '
+    if (['NotAllowedError', 'AbortError', 'InvalidStateError'].includes(e.name)) return quiet ? undefined : lockScreen('Unlock was cancelled, or this device no longer has the passkey. '
       + 'If the passkey was removed, sign out and paste your token again.');
     // Anything else means the saved lock itself is unusable (bad data, no key from the passkey, decrypt failed).
     report(e.name || "UnlockError", "Saved lock unusable, reset: " + e.message, e.stack);
     for (const k of ['token', LOCK]) store.set(k, '');
     token = '';
     setup('Your saved lock could not be opened, so it was reset. Please paste your token again.');
-  });
+  }); };
+  document.getElementById('unlock').onclick = () => attempt(false);
   document.getElementById('forget').onclick = signOut;
+  if (auto && !document.hidden) attempt(true);
 }
 
 function offerLock(error) {
@@ -178,7 +183,7 @@ function setup(error) {
 const homerooms = groups => Object.values(groups || {}).flat().filter(c => String(c.HomeRoom) === '1');
 
 async function start() {
-  if (!token && store.get(LOCK)) return lockScreen();
+  if (!token && store.get(LOCK)) return lockScreen(null, true);
   if (!token) return setup();
   try {
     me = await api('Me');
