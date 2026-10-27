@@ -1,5 +1,5 @@
 // App shell only. API calls always go to the network; attendance is never cached.
-const CACHE = 'attendance-v3';
+const CACHE = 'attendance-v4';
 const SHELL = ['./', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'ilcs-logo.png'];
 
 self.addEventListener('install', e => {

@@ -22,19 +22,20 @@
          font: 17px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   header { position: sticky; top: 0; background: var(--card); border-bottom: 1px solid var(--line);
            padding: 12px 16px; display: flex; gap: 8px; align-items: center; z-index: 1; }
-  .dates { display: flex; align-items: center; gap: 2px; flex: none; }
-  @media (max-width: 560px) {
-    header { flex-wrap: wrap; }
-    .avatar { order: 2; }
-    .dates { order: 3; flex: 1 0 100%; }
-    .dates input { flex: 1; text-align: center; }
-  }
+  .dates { display: flex; align-items: center; gap: 2px; flex: 1; min-width: 0; }
   .dates button { width: 32px; height: 36px; border: 0; border-radius: 8px; background: none; color: var(--ink);
-                  font-size: 24px; line-height: 1; cursor: pointer; }
+                  font-size: 24px; line-height: 1; cursor: pointer; flex: none; }
   .dates button:disabled { opacity: .3; cursor: default; }
-  header select, header input { font: inherit; padding: 6px 8px; border: 1px solid var(--line);
-           border-radius: 8px; background: var(--bg); color: var(--ink); min-width: 0; }
-  header select { flex: 1; }
+  header.past .datebtn { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 18%, var(--bg)); font-weight: 600; }
+  .today { flex: none; padding: 6px 10px; border: 1px solid var(--warn); border-radius: 8px; background: none; color: var(--ink); font: inherit; font-size: 14px; cursor: pointer; }
+  .today[hidden] { display: none; }
+  .datebtn, main select { font: inherit; padding: 6px 8px; border: 1px solid var(--line);
+           border-radius: 8px; background: var(--card); color: var(--ink); min-width: 0; }
+  .datebtn { position: relative; flex: 1; background: var(--bg); text-align: center; font-weight: 600; cursor: pointer; }
+  .dates { position: relative; }
+  .dates .datebtn { width: auto; height: 36px; font-size: 16px; line-height: 1; }
+  #date { position: absolute; left: 50%; bottom: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  main select { display: block; width: 100%; padding: 10px 12px; font-weight: 600; }
   .avatar { position: relative; flex: none; }
   .avatar > button { width: 36px; height: 36px; border-radius: 50%; border: 0; background: var(--accent);
                      color: var(--bg); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
@@ -47,8 +48,10 @@
   .menu button:hover { background: var(--bg); }
   .menu { width: 240px; }
   .menu .note { margin: 4px 8px; font-size: 13px; }
-  main { padding: 12px 16px 96px; max-width: 640px; margin: 0 auto; }
-  .summary { color: var(--muted); margin: 4px 0 12px; }
+  main { padding: 12px 16px 150px; max-width: 640px; margin: 0 auto; }
+  .controls { margin: -12px -16px 16px; padding: 12px 16px; background: var(--card); border-bottom: 1px solid var(--line); }
+  .controls select { background: var(--bg); }
+  .summary { color: var(--muted); margin: 0 auto 8px; max-width: 640px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; text-align: center; }
   ul { list-style: none; margin: 0; padding: 0; }
   li button { width: 100%; display: flex; justify-content: space-between; align-items: center;
               padding: 14px 16px; margin-bottom: 8px; border: 1px solid var(--line); border-radius: 12px;
@@ -138,18 +141,20 @@ async function start() {
 function render() {
   const saved = store.get('class');
   app.innerHTML = `<header>
-      <select id="cls">${classes.map(c => `<option value="${c.ID}"${String(c.ID) === saved ? ' selected' : ''}>${esc(c.Name)}</option>`).join('')}</select>
       <div class="dates"><button id="prev" aria-label="Previous day">‹</button>
-        <input id="date" type="date" value="${today()}" max="${today()}">
+        <button id="datebtn" class="datebtn"></button>
+        <input id="date" type="date" value="${today()}" max="${today()}" tabindex="-1" aria-hidden="true">
         <button id="next" aria-label="Next day" disabled>›</button></div>
+      <button id="today" class="today" hidden>Today</button>
       <div class="avatar"><button id="avatar" aria-label="Account" aria-haspopup="true">${esc(initials())}</button>
         <div class="menu" id="menu" hidden><p>${esc(`${me.FirstName || ''} ${me.LastName || ''}`.trim())}</p>
           <button id="signout">Sign out</button>
           <p class="note">Signing out removes your token from this device. You will need to paste it again to sign back in.</p></div></div>
     </header>
-    <main><p class="summary" id="summary">Loading...</p><ul id="list"></ul>
+    <main><div class="controls"><select id="cls" aria-label="Class">${classes.map(c => `<option value="${c.ID}"${String(c.ID) === saved ? ' selected' : ''}>${esc(c.Name)}</option>`).join('')}</select></div>
+      <ul id="list"></ul>
     </main>
-    <footer><button id="submit" disabled>Submit</button><p class="msg" id="msg"></p></footer>`;
+    <footer><p class="summary" id="summary">Loading...</p><button id="submit" disabled>Submit</button><p class="msg" id="msg"></p></footer>`;
   for (const id of ['cls', 'date']) {
     const el = document.getElementById(id);
     el.dataset.prev = el.value;
@@ -161,15 +166,42 @@ function render() {
       el.dataset.prev = el.value;
       if (id === 'cls') store.set('class', el.value);
       document.getElementById('next').disabled = val('date') >= today();
+      if (id === 'date') followDay = val('date') === today() ? today() : null;
       load();
     };
   }
+  // A teacher looking at today stays on today: when the app is reopened on a later day
+  // (or left open past midnight), roll forward, unless they picked another date or have unsaved changes.
+  let followDay = today();
+  const rollDate = () => {
+    if (document.hidden) return;
+    const t = today(), el = document.getElementById('date');
+    el.max = t;
+    if (followDay && followDay !== t && el.value === followDay && !Object.keys(changes()).length) {
+      el.value = el.dataset.prev = followDay = t;
+      load();
+    }
+    document.getElementById('next').disabled = el.value >= t;
+  };
+  document.onvisibilitychange = rollDate;
+  clearInterval(window.rollTimer);
+  window.rollTimer = setInterval(rollDate, 60000);
   const step = days => {
     const el = document.getElementById('date'), d = new Date(el.value + 'T12:00');
     do d.setDate(d.getDate() + days); while (d.getDay() === 0 || d.getDay() === 6);
     const next = d.toLocaleDateString('en-CA');
     if (next > today()) return;
     el.value = next;
+    el.dispatchEvent(new Event('change'));
+  };
+  // Typing into a date input fires change on every partial date, so open the picker instead.
+  document.getElementById('datebtn').onclick = () => {
+    const el = document.getElementById('date');
+    try { el.showPicker(); } catch { el.focus(); }
+  };
+  document.getElementById('today').onclick = () => {
+    const el = document.getElementById('date');
+    el.value = today();
     el.dispatchEvent(new Event('change'));
   };
   document.getElementById('prev').onclick = () => step(-1);
@@ -186,7 +218,14 @@ const initials = () => ((me.FirstName || '?').charAt(0) + (me.LastName || '').ch
 const val = id => document.getElementById(id).value;
 const msg = (text, kind) => { const m = document.getElementById('msg'); m.textContent = text; m.className = 'msg ' + (kind || ''); };
 
+const isPast = () => val('date') < today();
+const friendly = d => new Date(d + 'T12:00').toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+
 async function load() {
+  document.querySelector('header').classList.toggle('past', isPast());
+  document.getElementById('datebtn').textContent = new Date(val('date') + 'T12:00')
+    .toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  document.getElementById('today').hidden = !isPast();
   msg('');
   document.getElementById('submit').disabled = true;
   document.getElementById('summary').textContent = 'Loading...';
@@ -256,6 +295,7 @@ window.onbeforeunload = e => { if (Object.keys(changes()).length) e.preventDefau
 async function submit() {
   const students = changes();
   if (!Object.keys(students).length) return;
+  if (isPast() && !confirm(`You are submitting attendance for ${friendly(val('date'))}, not today. Submit anyway?`)) return;
   const btn = document.getElementById('submit');
   btn.disabled = true;
   msg('Submitting...');
