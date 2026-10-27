@@ -1,4 +1,34 @@
 const API = 'https://app.sycamoreschool.com/api/v1/';
+
+// Error reporting to Sentry, without the Sentry SDK. Reports carry only the error type, a scrubbed
+// message, the stack, the screen, and the app version: never student data, names, or the token.
+// Empty DSN = reporting off.
+const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
+const VERSION = '9';
+let view = 'start', reports = 0;
+
+function report(type, value, stack, extra) {
+  if (!SENTRY_DSN || reports++ >= 10) return;
+  try {
+    const { protocol, host, pathname, username: key } = new URL(SENTRY_DSN);
+    const scrub = s => String(s || '').replace(/[A-Za-z0-9_\-.]{24,}/g, '[redacted]').slice(0, 300);
+    const event = {
+      event_id: crypto.randomUUID().replace(/-/g, ''), timestamp: Date.now() / 1000, platform: 'javascript', level: 'error',
+      release: 'ilcs-classroom-attendance@' + VERSION,
+      environment: location.hostname === 'www.kevinvanleer.com' ? 'production' : 'local',
+      tags: { view, installed: String(installed()) },
+      exception: { values: [{ type: scrub(type), value: scrub(value) }] },
+      extra: { stack: scrub(stack), ...extra },
+      request: { headers: { 'User-Agent': navigator.userAgent } },
+    };
+    const body = [JSON.stringify({ event_id: event.event_id, sent_at: new Date().toISOString() }),
+                  JSON.stringify({ type: 'event' }), JSON.stringify(event)].join('\n');
+    const url = `${protocol}//${host}/api${pathname}/envelope/?sentry_key=${key}&sentry_version=7`;
+    fetch(url, { method: 'POST', body, keepalive: true, headers: { 'Content-Type': 'text/plain' } }).catch(() => {});
+  } catch {}
+}
+addEventListener('error', e => report(e.error?.name || 'Error', e.message, e.error?.stack));
+addEventListener('unhandledrejection', e => report(e.reason?.name || 'UnhandledRejection', e.reason?.message || e.reason, e.reason?.stack));
 const store = {
   get(k) { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
@@ -15,7 +45,11 @@ async function api(path, body) {
     body: body ? JSON.stringify(body) : undefined,
   });
   const text = await res.text();
-  if (!res.ok) throw Object.assign(new Error(`${res.status} ${text.slice(0, 120)}`), { status: res.status });
+  if (!res.ok) {
+    // Status and the call's shape only; Sycamore's response text can contain student data.
+    if (res.status !== 401 && res.status !== 403) report('HTTPError', `${body ? 'POST' : 'GET'} ${path.split('?')[0].replace(/\d+/g, ':id')} ${res.status}`);
+    throw Object.assign(new Error(`${res.status} ${text.slice(0, 120)}`), { status: res.status });
+  }
   return text.trim() ? JSON.parse(text) : null;
 }
 
@@ -80,6 +114,7 @@ function signOut() {
 const shell = body => `<div class="setup"><img class="logo" src="ilcs-logo.png" alt="Immanuel Lutheran Church and School" width="399" height="100"><h2>Classroom Attendance</h2>${body}</div>`;
 
 function lockScreen(error) {
+  view = "lock";
   app.innerHTML = shell(`<button id="unlock">Unlock with fingerprint or face</button>
     <p class="msg err">${esc(error || '')}</p>
     ${error ? '<button id="forget" class="secondary">Sign out and paste my token again</button>' : '<p class="hint"><button class="link" id="forget">Sign out</button></p>'}`);
@@ -88,6 +123,7 @@ function lockScreen(error) {
     if (e.name === 'NotAllowedError') return lockScreen('Unlock was cancelled, or this device no longer has the passkey. '
       + 'If the passkey was removed, sign out and paste your token again.');
     // Anything else means the saved lock itself is unusable (bad data, no key from the passkey, decrypt failed).
+    report(e.name || "UnlockError", "Saved lock unusable, reset: " + e.message, e.stack);
     for (const k of ['token', LOCK]) store.set(k, '');
     token = '';
     setup('Your saved lock could not be opened, so it was reset. Please paste your token again.');
@@ -96,17 +132,19 @@ function lockScreen(error) {
 }
 
 function offerLock(error) {
+  view = "offer-lock";
   app.innerHTML = shell(`<p>This device can protect your token with your fingerprint or face. The token is encrypted and
       can only be unlocked by you on this device. You will be asked to unlock each time you open the app.</p>
     <button id="lockon">Turn on fingerprint or face lock</button>
     <p class="msg err">${esc(error || '')}</p>
     <p class="hint"><button class="link" id="nolock">Not now</button></p>`);
   document.getElementById('lockon').onclick = () => enableLock().then(ready,
-    e => offerLock(e.name === 'NotAllowedError' ? 'Setup was cancelled.' : e.message));
+    e => { if (e.name !== 'NotAllowedError') report(e.name || 'LockSetupError', e.message, e.stack); offerLock(e.name === 'NotAllowedError' ? 'Setup was cancelled.' : e.message); });
   document.getElementById('nolock').onclick = () => { store.set('nolock', '1'); ready(); };
 }
 
 function setup(error) {
+  view = "sign-in";
   app.innerHTML = `<div class="setup"><img class="logo" src="ilcs-logo.png" alt="Immanuel Lutheran Church and School" width="399" height="100"><h2>Classroom Attendance</h2>
     ${ios() && !installed() ? '<p class="hint ios">On iPhone or iPad, tap Share, then <strong>Add to Home Screen</strong>, and open the app from there. In a Safari tab, iOS may delete your token after 7 days without use.</p>' : ''}
 
@@ -126,7 +164,7 @@ function setup(error) {
       <input id="tok" type="password" autocomplete="off" placeholder="Paste your token">
       <button id="save">Sign in</button>
       <p class="msg err">${esc(error || '')}</p>
-      <p class="hint">Your token is saved only on this device. Signing out deletes it from the device.</p>
+      <p class="hint">Your token is saved only on this device. Signing out deletes it from the device.${SENTRY_DSN ? ' Error reports are sent to help fix problems; they never include student names or your token.' : ''}</p>
     </div></div>`;
   if (error) document.getElementById('tok').scrollIntoView({ block: 'center' });
   document.getElementById('save').onclick = () => {
@@ -170,6 +208,7 @@ function ready() {
 }
 
 function render() {
+  view = "attendance";
   const saved = store.get('class');
   app.innerHTML = `<header>
       <div class="dates"><button id="prev" aria-label="Previous day">‹</button>
@@ -335,7 +374,10 @@ async function submit() {
   msg('Submitting...');
   try {
     const res = await api(`Class/${encodeURIComponent(val('cls'))}/Attendance`, { Date: val('date'), Students: students });
-    if (!res || Number(res.Success) !== 1) throw new Error(JSON.stringify(res));
+    if (!res || Number(res.Success) !== 1) {
+      report('SubmitRejected', 'POST Class/:id/Attendance returned ' + JSON.stringify({ Success: res?.Success, Created: res?.Created, Updated: res?.Updated }));
+      throw new Error(JSON.stringify(res));
+    }
     await load();
     msg(`Saved: ${res.Created || 0} new, ${res.Updated || 0} updated.`, 'ok');
   } catch (e) {
