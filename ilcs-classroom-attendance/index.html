@@ -61,6 +61,7 @@
   .msg { text-align: center; margin: 8px 0 0; font-size: 15px; }
   .msg.ok { color: var(--ok); } .msg.err { color: var(--absent); }
   .setup { padding: 24px 16px; max-width: 480px; margin: 0 auto; }
+  .setup .logo { display: block; width: 100%; height: auto; padding: 12px; background: #fff; border-radius: 12px; }
   .setup input { width: 100%; font: inherit; padding: 12px; margin: 12px 0; border: 1px solid var(--line);
                  border-radius: 8px; background: var(--card); color: var(--ink); }
   .warn { padding: 12px; border: 1px solid var(--absent); border-radius: 8px; background: var(--absent-bg); font-size: 15px; }
@@ -92,11 +93,11 @@ async function api(path, body) {
 }
 
 function setup(error) {
-  app.innerHTML = `<div class="setup"><h2>Attendance</h2>
-    <p>Paste your Sycamore access token. Create one in Sycamore under My Organizer, Applications.</p>
+  app.innerHTML = `<div class="setup"><img class="logo" src="ilcs-logo.png" alt="Immanuel Lutheran Church and School" width="399" height="100"><h2>Classroom Attendance</h2>
+    <p>Paste your Sycamore access token. Create one in Sycamore under My Organizer &gt; Utilities &gt; Applications.</p>
     <p class="warn"><strong>Keep your token secret.</strong> It works like your Sycamore password. Anyone who has it
       can see and change your class records as you. Do not share it, email it, or text it to anyone, including
-      the office. If you think someone else has it, delete it in My Organizer, Applications and create a new one.</p>
+      the office. If you think someone else has it, delete it in My Organizer &gt; Utilities &gt; Applications and create a new one.</p>
     <input id="tok" type="password" autocomplete="off" placeholder="Access token">
     <button id="save">Save</button>
     <p class="msg err">${error || ''}</p></div>`;
