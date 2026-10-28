@@ -4,7 +4,7 @@ const API = 'https://app.sycamoreschool.com/api/v1/';
 // message, the stack, the screen, and the app version: never student data, names, or the token.
 // Empty DSN = reporting off.
 const SENTRY_DSN = 'https://e57b9bd028c0553ef05a197b74226aca@o4512329506422784.ingest.us.sentry.io/4512329520709632';
-const VERSION = '13';
+const VERSION = '14';
 let view = 'start', reports = 0;
 
 function report(type, value, stack, extra) {
@@ -165,11 +165,23 @@ function setup(error) {
       : android() && !installed() ? '<p class="hint install">Tip: install this app from Chrome\'s ⋮ menu &gt; <strong>Install app</strong>, and open it from your home screen.</p>' : ''}
 
     <h3>Getting your token</h3>
-    <ol>
-      <li><a href="https://app.sycamoreschool.com/index.php?schoolid=4502" target="_blank" rel="noopener">Sign in to Sycamore</a>.</li>
-      <li>Go to My Organizer &gt; Utilities &gt; Applications.</li>
-      <li>Create a token, copy it, and paste it below.</li>
-    </ol>
+    <p>You sign in with an access token you create in Sycamore.</p>
+    <button class="secondary" id="how">How to create a token</button>
+    <dialog id="howto">
+      <button class="close" id="howclose" aria-label="Close"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <h3>Creating your token</h3>
+      <ol>
+        <li><a href="https://app.sycamoreschool.com/index.php?schoolid=4502" target="_blank" rel="noopener">Sign in to Sycamore</a>.
+          It opens in a new tab; come back here when you have your token.</li>
+        <li>Go to My Organizer &gt; Utilities &gt; Applications.</li>
+        <li>Click <strong>Generate New Token</strong>.</li>
+        <li>In Description, enter <strong>attendance</strong>. This is optional; it only helps you remember what the token is for.</li>
+        <li>Under Scopes, select <strong>Individual</strong> and <strong>General</strong>.</li>
+        <li>Click <strong>Add</strong>.</li>
+        <li>Copy the access token and paste it into the app. It is 33 characters long, like this example:<br>
+          <code>a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e</code></li>
+      </ol>
+    </dialog>
 
     <div class="warn"><strong>Keep your token secret.</strong> Like your password, it lets anyone see and change your
       class records as you. Never share, email, or text it, even to the office. If it leaks, delete it in Applications
@@ -182,6 +194,14 @@ function setup(error) {
       <p class="msg err">${esc(error || '')}</p>
       <p class="hint">Your token is saved only on this device. Signing out deletes it from the device.${SENTRY_DSN ? ' Error reports are sent to help fix problems; they never include student names or your token.' : ''}</p>
     </div></div>`;
+  const howto = document.getElementById('howto');
+  document.getElementById('how').onclick = () => howto.showModal();
+  document.getElementById('howclose').onclick = () => howto.close();
+  // Backdrop clicks land on the dialog element itself, outside its box.
+  howto.onclick = e => {
+    const r = howto.getBoundingClientRect();
+    if (e.target === howto && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) howto.close();
+  };
   if (error) document.getElementById('tok').scrollIntoView({ block: 'center' });
   document.getElementById('save').onclick = () => {
     token = document.getElementById('tok').value.trim();
@@ -199,8 +219,8 @@ async function start() {
   try {
     me = await api('Me');
     classes = homerooms(await api(`User/${encodeURIComponent(me.UserID)}/Classes`));
-    // ponytail: office accounts teach no class; fall back to every homeroom in the school
-    if (!classes.length) classes = homerooms(await api(`School/${encodeURIComponent(me.SchoolID)}/Classes`));
+    // Super users (office) teach no class, so they get every homeroom; everyone else sees only their own.
+    if (!classes.length && Number(me.SuperUser) === 1) classes = homerooms(await api(`School/${encodeURIComponent(me.SchoolID)}/Classes`));
   } catch (e) {
     // Only a rejected token is forgotten; a network failure must not sign the teacher out.
     if (e.status === 401 || e.status === 403) {
@@ -211,7 +231,16 @@ async function start() {
     document.getElementById('retry').onclick = start;
     return;
   }
-  if (!classes.length) return setup('No homeroom classes found for this account.');
+  if (!classes.length) {
+    view = "no-classes";
+    app.innerHTML = shell(`<p>You're signed in, but no homeroom is assigned to your account in Sycamore.
+      Ask the office to add you as the teacher of your homeroom, then tap Try again.</p>
+      <button id="retry">Try again</button>
+      <p class="hint"><button class="link" id="forget">Sign out</button></p>`);
+    document.getElementById('retry').onclick = start;
+    document.getElementById('forget').onclick = signOut;
+    return;
+  }
   classes.sort((a, b) => a.Name.localeCompare(b.Name));
   if (store.get('token') && !store.get('nolock') && await lockAvailable()) return offerLock();
   ready();
@@ -320,6 +349,7 @@ const dflt = () => store.get('default') === 'A' ? 'A' : 'P';
 const val = id => document.getElementById(id).value;
 const msg = (text, kind) => { const m = document.getElementById('msg'); m.textContent = text; m.className = 'msg ' + (kind || ''); };
 
+const NO_ACCESS = 'You no longer have access to this class. Reopen the app to refresh your classes.';
 const isPast = () => val('date') < today();
 const friendly = d => new Date(d + 'T12:00').toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
@@ -339,7 +369,7 @@ async function load() {
     reset();
   } catch (e) {
     document.getElementById('summary').textContent = '';
-    msg('Could not load the class: ' + e.message, 'err');
+    msg(e.status === 403 ? NO_ACCESS : 'Could not load the class: ' + e.message, 'err');
   }
 }
 
@@ -415,7 +445,7 @@ async function submit() {
     msg(`Saved: ${res.Created || 0} new, ${res.Updated || 0} updated.`, 'ok');
   } catch (e) {
     btn.disabled = false;
-    msg('Not saved: ' + e.message, 'err');
+    msg(e.status === 403 ? 'Not saved. ' + NO_ACCESS : 'Not saved: ' + e.message, 'err');
   }
 }
 

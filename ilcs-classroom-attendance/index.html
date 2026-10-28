@@ -90,6 +90,15 @@
   .warn { padding: 14px 16px; border: 1px solid var(--absent); border-radius: 10px; background: var(--absent-bg); font-size: 15px; margin-top: 24px; }
   .setup h2 { margin: 28px 0 24px; }
   .setup label { display: block; font-weight: 600; }
+  .setup dialog h3 { margin-top: 12px; padding-right: 40px; }
+  .setup dialog .close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; padding: 0;
+                         display: flex; align-items: center; justify-content: center; border-radius: 50%;
+                         background: var(--line); color: var(--muted); }
+  .setup dialog { width: min(480px, calc(100% - 32px)); max-height: calc(100% - 32px); padding: 8px 20px 20px; box-sizing: border-box;
+                  border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); line-height: 1.5; }
+  .setup dialog::backdrop { background: rgb(0 0 0 / 50%); }
+  .setup dialog ol { padding-left: 22px; }
+  .setup code { word-break: break-all; }
   .setup input { margin: 10px 0 14px; }
   .setup .hint { color: var(--muted); font-size: 14px; text-align: center; margin: 16px 0 0; }
   .setup .hint.install { margin: 0 0 24px; text-align: left; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); }
